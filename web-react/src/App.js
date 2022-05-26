@@ -30,7 +30,7 @@ import {
   People as PeopleIcon,
 } from '@material-ui/icons'
 import Dashboard from './components/Dashboard'
-/* import CreateUser from './components/CreateUser' */
+import CreateUser from './components/CreateUser'
 
 function Copyright() {
   return (
@@ -230,7 +230,7 @@ export default function App() {
               <Route exact path="/" component={Dashboard} />
               <Route exact path="/businesses" component={UserList} />
               <Route exact path="/users" component={UserList} />
-              {/* <Route exact path="/createuser" component={CreateUser} /> */}
+              <Route exact path="/createuser" component={CreateUser} />
             </Switch>
 
             <Box pt={4}>

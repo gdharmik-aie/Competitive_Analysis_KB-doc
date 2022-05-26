@@ -54,13 +54,11 @@ const styles = (theme) => ({
 
 const GET_USER = gql`
   query usersPaginateQuery(
-    $first: Int
-    $offset: Int
     $orderBy: [UserSort]
     $filter: UserWhere
   ) {
     users(
-      options: { limit: $first, skip: $offset, sort: $orderBy }
+      options: {sort: $orderBy }
       where: $filter
     ) {
       id: userId
@@ -76,23 +74,36 @@ const UPDATE_USER = gql`
    $where: UserWhere, $update: UserUpdateInput
   ){
     updateUsers(where: $where, update: $update){
-      id:userId
-      name
+       users {
+         userId
+         name
+        }
     }
   }
 `
+const DETETE_USER = gql`
+  mutation userDeleteMutationQuery($where: UserWhere) {
+  deleteUsers(where: $where) {
+     nodesDeleted
+  }
+}
+`
+
 
 function UserList(props) {
   const { classes } = props
   const [order, setOrder] = React.useState('ASC')
   const [orderBy, setOrderBy] = React.useState('name')
-  const [page] = React.useState(0)
-  const [rowsPerPage] = React.useState(10)
+  /*  const [page] = React.useState(0)
+   const [rowsPerPage] = React.useState(10) */
   const [filterState, setFilterState] = React.useState({ usernameFilter: '' })
   const [open, setOpen] = React.useState(false);
   const [updateUser, setUpdateUser] = React.useState({})
   const [userId, setUserId] = React.useState("")
   const [userName, setUserName] = React.useState("")
+  //const [userData, setUserData] = React.useState({})
+
+
 
   const getFilter = () => {
     return filterState.usernameFilter.length > 0
@@ -102,15 +113,20 @@ function UserList(props) {
 
   const { loading, data, error } = useQuery(GET_USER, {
     variables: {
-      first: rowsPerPage,
-      offset: rowsPerPage * page,
       orderBy: { [orderBy]: order },
       filter: getFilter(),
     },
   })
 
-  const [updateUsers, { data: mutationData, loading: mutationLoading, error: mutationError }] = useMutation(UPDATE_USER,
-    { variables: { where: { userId: userId }, update: { name: userName } } })
+ 
+
+  const [updateUsers, { loading: mutationLoading, error: mutationError }] = useMutation(UPDATE_USER,
+    { variables: { where: { userId: userId }, update: { userId: userId, name: userName } } })
+
+
+  const [deleteUsers, { data: deleteMutationData, loading: deletMutaionLoading, error: deleteMutationError }] = useMutation(DETETE_USER,
+    { variables: { where: { userId: userId, } } })
+
 
   const handleSortRequest = (property) => {
     const newOrderBy = property
@@ -140,25 +156,45 @@ function UserList(props) {
   }
 
 
-  const onChangeHandler = (e) => {
-    /* const userId = e.target.value */
+  const onUserIdChange = (e) => {
+    const userId = e.target.value
+    setUserId(userId)
+    console.log(userId)
+  }
+
+  const onUserNameChange = (e) => {
     const userName = e.target.value
-    /* setUserId(userId) */
     setUserName(userName)
-    //updateUsers()
-    /*  console.log(userId) */
     console.log(userName)
   }
 
   const handlerSubmit = (e) => {
-    console.log(e.target.value)
     e.preventDefault()
     updateUsers()
-    console.log(mutationData)
+    console.log(userId)
     console.log(mutationError)
     console.log(mutationLoading)
+    if (!mutationError) {
+      setOpen(false)
+      window.location.reload()
+    }
   }
 
+  const OnDeleteUser = (n) => {
+    setUpdateUser(n)
+    setUserId(n.id)
+    if (userId) {
+      deleteUsers()
+      window.location.reload()
+    }
+    console.log(deleteMutationError)
+    console.log(deletMutaionLoading)
+    console.log(deleteMutationData)
+    if (deleteMutationData) {
+      alert(`${deleteMutationData} is deletd`)
+    }
+
+  }
 
   const handleClose = () => setOpen(false);
 
@@ -230,6 +266,11 @@ function UserList(props) {
                       onClick={() => onUpdateUser(n)}>update
                     </Button>
                   </TableCell>
+                  <TableCell>
+                    <Button className='formButton' color="default" variant="contained" onClick={() => OnDeleteUser(n)}>
+                      Delete
+                    </Button>
+                  </TableCell>
                 </TableRow>
               )
             })}
@@ -247,26 +288,24 @@ function UserList(props) {
           <Typography id="modal-modal-title" variant="h5" component="h2" >
             Update user
           </Typography>
+
           <form onSubmit={handlerSubmit}>
-            {mutationError && !mutationLoading ? <label className='labelField'>{mutationError}</label> : ""}
             <TextField
               className='textField'
               required
               id="outlined-required"
               label="User Id"
               defaultValue={updateUser.id}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
+              onChange={onUserIdChange}
+            ></TextField>
             <TextField
               className='textField'
               required
               id="outlined-required"
               label="User Name"
               defaultValue={updateUser.name}
-              onChange={onChangeHandler}
-            />
+              onChange={onUserNameChange}
+            ></TextField>
             <div className='textfield-container'>
               <TextField
                 className='textField'
@@ -276,7 +315,7 @@ function UserList(props) {
                 InputProps={{
                   readOnly: true,
                 }}
-              />
+              ></TextField>
               <TextField
                 className='textField'
                 id="outlined-required"
@@ -285,16 +324,12 @@ function UserList(props) {
                 InputProps={{
                   readOnly: true,
                 }}
-              />
+              ></TextField>
             </div>
-
+            <div className='button-container'>
+              <Button className='formButton' color="primary" variant="contained" type='submit'>Submit</Button>
+            </div>
           </form>
-          <div className='button-container'>
-            <Button className='formButton' color="default" variant="contained">
-              Delete
-            </Button>
-            <Button className='formButton' color="primary" variant="contained"  >Submit</Button>
-          </div>
         </Box>
       </Modal>
     </Paper>
