@@ -18,12 +18,13 @@ spec:
         -
           image: "${IMAGE}/petweb:${IMAGETAG}"
           name: pet-web
+          envFrom:
+            - configMapRef:
+                name: pet-config
           ports:
             -
               containerPort: 3000
-		  envFrom:
-            - configMapRef:
-                name: pet-config
+		  
           resources:
             limits:
               memory: ${LIMITS_MEMORY}
