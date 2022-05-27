@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: petfront
+  name: petfront
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petfront
+  template:
+    metadata:
+      labels:
+        app: petfront
+    spec:
+      containers:
+        -
+          image: "${IMAGE}/petweb:${IMAGETAG}"
+          name: pet-web
+          ports:
+            -
+              containerPort: 3000
+		  envFrom:
+            - configMapRef:
+                name: pet-config
+          resources:
+            limits:
+              memory: ${LIMITS_MEMORY}
+            requests:
+              cpu: ${REQUEST_CPU}
+              memory: ${REQUEST_MEMORY}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pet
+spec:
+  ports:
+  - port: 80
+    targetPort: 3000
+    name: pet-web
+  selector:
+    app: petfront
+  type: LoadBalancer
