@@ -1,7 +1,7 @@
 @Library('arc-demo') _
 
-petDeliveryPipeline(branch: env.BRANCH_NAME, scmUrl: 'https://github.com/gdharmik-aie/Competitive_Analysis_KB-doc.git',
+grandstackDeliveryPipeline(branch: env.BRANCH_NAME, scmUrl: 'https://github.com/gdharmik-aie/Competitive_Analysis_KB-doc.git',
                          bitbucketCredentialsId: 'cicdadminaie',
-                         appName: 'pet', dockerDirectory: env.WORKSPACE,
-                         dockerImage: 'gcr.io/retisio-tools/petweb',
+                         appName: 'grandstack', dockerDirectory: env.WORKSPACE,
+                         dockerImage: 'gcr.io/retisio-tools/webreact',
                          dockerCredentialsId: 'retisio-tools' )
