@@ -2,10 +2,10 @@ FROM node:14.19.3-alpine as builder
 
 RUN mkdir -p /app
 WORKDIR /app
-COPY img ./img
-COPY public ./public
-COPY src ./src
-COPY package.json package-lock.json ./
+COPY web-react/img ./img
+COPY web-react/public ./public
+COPY web-react/src ./src
+COPY web-reactpackage.json web-react/package-lock.json ./
 
 RUN npm install
 
