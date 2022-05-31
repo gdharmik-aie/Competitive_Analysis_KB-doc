@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: grandstack
+  name: grandstack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grandstack
+  template:
+    metadata:
+      labels:
+        app: grandstack
+    spec:
+      containers:
+        -
+          image: "api:v1.0"
+          name: graphapi
+          envFrom:
+            - configMapRef:
+                name: graph-config
+          ports:
+            -
+              containerPort: 4001
+          resources:
+            limits:
+              memory: 1G
+            requests:
+              cpu: 250m
+              memory: 512Mi
+        -
+          image: "web-react:v1.0"
+          name: web-react
+          ports:
+            -
+              containerPort: 80
+              name: web-react-http
+          resources:
+            limits:
+              memory: 1G
+            requests:
+              cpu: 250m
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-react
+spec:
+  ports:
+  - port: 8080
+    targetPort: web-react-http
+    name: web-react
+  selector:
+    app: grandstack
+  type: LoadBalancer
