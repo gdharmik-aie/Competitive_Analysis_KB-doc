@@ -5,7 +5,7 @@ WORKDIR /app
 COPY web-react/img ./img
 COPY web-react/public ./public
 COPY web-react/src ./src
-COPY web-reactpackage.json web-react/package-lock.json ./
+COPY web-react/package.json web-react/package-lock.json ./
 
 RUN npm install
 
@@ -28,7 +28,7 @@ RUN apk add --no-cache --update \
 COPY --from=builder /app/build /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf /etc/nginx/nginx.conf
 
-COPY nginx/appconfig.conf /etc/nginx/conf.d
-COPY nginx/nginx.conf /etc/nginx/
+COPY web-react/nginx/appconfig.conf /etc/nginx/conf.d
+COPY web-react/nginx/nginx.conf /etc/nginx/
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
