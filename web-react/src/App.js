@@ -209,7 +209,7 @@ export default function App() {
                 <ListItemIcon>
                   <PeopleIcon />
                 </ListItemIcon>
-                <ListItemText primary="Users" />
+                <ListItemText primary="Domain" />
               </ListItem>
             </Link>
             <Link to="/createuser" className={classes.navLink}>
@@ -217,7 +217,15 @@ export default function App() {
                 <ListItemIcon>
                   <PeopleIcon />
                 </ListItemIcon>
-                <ListItemText primary="Create user" />
+                <ListItemText primary="Company" />
+              </ListItem>
+            </Link>
+            <Link to="/createuser" className={classes.navLink}>
+              <ListItem button>
+                <ListItemIcon>
+                  <PeopleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Offering" />
               </ListItem>
             </Link>
           </List>

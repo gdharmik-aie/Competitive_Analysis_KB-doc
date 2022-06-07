@@ -15,7 +15,7 @@ import {
   Button,
   Box,
   Typography,
-  Modal
+  Modal,
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import Title from './Title'
@@ -36,31 +36,25 @@ const styles = (theme) => ({
     minWidth: 300,
   },
   modalBox: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     width: 400,
-    backgroundColor: "white",
-    border: "none",
+    backgroundColor: 'white',
+    border: 'none',
     boxShadow: 24,
-    padding: 24
+    padding: 24,
   },
   navLink: {
     textDecoration: 'none',
     color: 'inherit',
-  }
+  },
 })
 
-const GET_USER = gql`
-  query usersPaginateQuery(
-    $orderBy: [UserSort]
-    $filter: UserWhere
-  ) {
-    users(
-      options: {sort: $orderBy }
-      where: $filter
-    ) {
+const GET_COMPANY = gql`
+  query usersPaginateQuery($orderBy: [UserSort], $filter: UserWhere) {
+    users(options: { sort: $orderBy }, where: $filter) {
       id: userId
       name
       avgStars
@@ -71,24 +65,24 @@ const GET_USER = gql`
 
 const UPDATE_USER = gql`
   mutation userUpdateMutationQuery(
-   $where: UserWhere, $update: UserUpdateInput
-  ){
-    updateUsers(where: $where, update: $update){
-       users {
-         userId
-         name
-        }
+    $where: UserWhere
+    $update: UserUpdateInput
+  ) {
+    updateUsers(where: $where, update: $update) {
+      users {
+        userId
+        name
+      }
     }
   }
 `
 const DETETE_USER = gql`
   mutation userDeleteMutationQuery($where: UserWhere) {
-  deleteUsers(where: $where) {
-     nodesDeleted
+    deleteUsers(where: $where) {
+      nodesDeleted
+    }
   }
-}
 `
-
 
 function UserList(props) {
   const { classes } = props
@@ -97,13 +91,11 @@ function UserList(props) {
   /*  const [page] = React.useState(0)
    const [rowsPerPage] = React.useState(10) */
   const [filterState, setFilterState] = React.useState({ usernameFilter: '' })
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
   const [updateUser, setUpdateUser] = React.useState({})
-  const [userId, setUserId] = React.useState("")
-  const [userName, setUserName] = React.useState("")
+  const [userId, setUserId] = React.useState('')
+  const [userName, setUserName] = React.useState('')
   //const [userData, setUserData] = React.useState({})
-
-
 
   const getFilter = () => {
     return filterState.usernameFilter.length > 0
@@ -111,22 +103,31 @@ function UserList(props) {
       : {}
   }
 
-  const { loading, data, error } = useQuery(GET_USER, {
+  const { loading, data, error } = useQuery(GET_COMPANY, {
     variables: {
       orderBy: { [orderBy]: order },
       filter: getFilter(),
     },
   })
 
- 
+  const [
+    updateUsers,
+    { loading: mutationLoading, error: mutationError },
+  ] = useMutation(UPDATE_USER, {
+    variables: {
+      where: { userId: userId },
+      update: { userId: userId, name: userName },
+    },
+  })
 
-  const [updateUsers, { loading: mutationLoading, error: mutationError }] = useMutation(UPDATE_USER,
-    { variables: { where: { userId: userId }, update: { userId: userId, name: userName } } })
-
-
-  const [deleteUsers, { data: deleteMutationData, loading: deletMutaionLoading, error: deleteMutationError }] = useMutation(DETETE_USER,
-    { variables: { where: { userId: userId, } } })
-
+  const [
+    deleteUsers,
+    {
+      data: deleteMutationData,
+      loading: deletMutaionLoading,
+      error: deleteMutationError,
+    },
+  ] = useMutation(DETETE_USER, { variables: { where: { userId: userId } } })
 
   const handleSortRequest = (property) => {
     const newOrderBy = property
@@ -152,9 +153,8 @@ function UserList(props) {
     //console.log("here:", n)
     setUpdateUser(n)
     setUserId(n.id)
-    setOpen(true);
+    setOpen(true)
   }
-
 
   const onUserIdChange = (e) => {
     const userId = e.target.value
@@ -193,24 +193,24 @@ function UserList(props) {
     if (deleteMutationData) {
       alert(`${deleteMutationData} is deletd`)
     }
-
   }
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => setOpen(false)
 
   return (
     <Paper className={classes.root}>
-      <div className='title-container'>
-        <Title>
-          User List
-        </Title>
-        <Link to="/createuser" className={classes.navLink}> <Button color="primary" variant="outlined">
-          Create User
-        </Button></Link>
+      <div className="title-container">
+        <Title>Company List</Title>
+        <Link to="/createuser" className={classes.navLink}>
+          {' '}
+          <Button color="primary" variant="outlined">
+            Add Company
+          </Button>
+        </Link>
       </div>
       <TextField
         id="search"
-        label="User Name Contains"
+        label="Company Name Contains"
         className={classes.textField}
         value={filterState.usernameFilter}
         onChange={handleFilterChange('usernameFilter')}
@@ -227,7 +227,7 @@ function UserList(props) {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell key="userId">User Id</TableCell>
+              <TableCell key="userId">Company Id</TableCell>
               <TableCell
                 key="name"
                 sortDirection={orderBy === 'name' ? order.toLowerCase() : false}
@@ -261,13 +261,17 @@ function UserList(props) {
                   </TableCell>
                   <TableCell>{n.numReviews}</TableCell>
                   <TableCell>
-                    <Button
-                      variant="outlined"
-                      onClick={() => onUpdateUser(n)}>update
+                    <Button variant="outlined" onClick={() => onUpdateUser(n)}>
+                      update
                     </Button>
                   </TableCell>
                   <TableCell>
-                    <Button className='formButton' color="default" variant="contained" onClick={() => OnDeleteUser(n)}>
+                    <Button
+                      className="formButton"
+                      color="default"
+                      variant="contained"
+                      onClick={() => OnDeleteUser(n)}
+                    >
                       Delete
                     </Button>
                   </TableCell>
@@ -285,13 +289,13 @@ function UserList(props) {
         aria-describedby="modal-modal-description"
       >
         <Box className={classes.modalBox}>
-          <Typography id="modal-modal-title" variant="h5" component="h2" >
+          <Typography id="modal-modal-title" variant="h5" component="h2">
             Update user
           </Typography>
 
           <form onSubmit={handlerSubmit}>
             <TextField
-              className='textField'
+              className="textField"
               required
               id="outlined-required"
               label="User Id"
@@ -299,16 +303,16 @@ function UserList(props) {
               onChange={onUserIdChange}
             ></TextField>
             <TextField
-              className='textField'
+              className="textField"
               required
               id="outlined-required"
               label="User Name"
               defaultValue={updateUser.name}
               onChange={onUserNameChange}
             ></TextField>
-            <div className='textfield-container'>
+            <div className="textfield-container">
               <TextField
-                className='textField'
+                className="textField"
                 id="outlined-required"
                 label="Review Count"
                 defaultValue={updateUser.numReviews}
@@ -317,7 +321,7 @@ function UserList(props) {
                 }}
               ></TextField>
               <TextField
-                className='textField'
+                className="textField"
                 id="outlined-required"
                 label="Average star"
                 defaultValue={updateUser.avgStars}
@@ -326,8 +330,15 @@ function UserList(props) {
                 }}
               ></TextField>
             </div>
-            <div className='button-container'>
-              <Button className='formButton' color="primary" variant="contained" type='submit'>Submit</Button>
+            <div className="button-container">
+              <Button
+                className="formButton"
+                color="primary"
+                variant="contained"
+                type="submit"
+              >
+                Submit
+              </Button>
             </div>
           </form>
         </Box>
