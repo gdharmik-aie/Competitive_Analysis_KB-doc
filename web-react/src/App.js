@@ -31,6 +31,7 @@ import {
 } from '@material-ui/icons'
 import Dashboard from './components/Dashboard'
 import CreateDomain from './components/Domain/CreateDomain'
+import DomainDetails from './components/Domain/DomainDetails'
 
 function Copyright() {
   return (
@@ -212,14 +213,14 @@ export default function App() {
                 <ListItemText primary="Domain" />
               </ListItem>
             </Link>
-            <Link to="/createuser" className={classes.navLink}>
+            {/* <Link to="/createuser" className={classes.navLink}>
               <ListItem button>
                 <ListItemIcon>
                   <PeopleIcon />
                 </ListItemIcon>
                 <ListItemText primary="Create user" />
               </ListItem>
-            </Link>
+            </Link> */}
           </List>
           <Divider />
         </Drawer>
@@ -230,6 +231,7 @@ export default function App() {
               <Route exact path="/" component={Dashboard} />
               {/* <Route exact path="/businesses" component={UserList} /> */}
               <Route exact path="/domain" component={DomainList} />
+              <Route exact path="/detailsDomain" component={DomainDetails} />
               <Route exact path="/createDomain" component={CreateDomain} />
             </Switch>
 

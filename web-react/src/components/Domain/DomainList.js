@@ -22,13 +22,14 @@ import Title from '../Title'
 
 const styles = (theme) => ({
     root: {
-        maxWidth: 700,
+
         marginTop: theme.spacing(3),
         overflowX: 'auto',
         margin: 'auto',
+        padding: 16
     },
     table: {
-        minWidth: 700,
+        minWidth: 900,
     },
     textField: {
         marginLeft: theme.spacing(1),
@@ -49,7 +50,8 @@ const styles = (theme) => ({
     navLink: {
         textDecoration: 'none',
         color: 'inherit',
-    }
+    },
+
 })
 
 const GET_DOMAIN = gql`
@@ -243,6 +245,8 @@ function DomainList(props) {
                             </TableCell>
 
                             <TableCell key="numReviews">Domain Description</TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -253,9 +257,10 @@ function DomainList(props) {
                                         {n.domainId}
                                     </TableCell>
                                     <TableCell component="th" scope="row">
-                                        {n.name}
+                                        <Link to={{ pathname: "/detailsDomain", state: { name: n.name } }}  >
+                                            {n.name}
+                                        </Link>
                                     </TableCell>
-
                                     <TableCell>{n.description}</TableCell>
                                     <TableCell>
                                         <Button
@@ -288,7 +293,7 @@ function DomainList(props) {
 
                     <form onSubmit={handlerSubmit}>
                         <TextField
-                            className='textField'
+                            className='TextField'
                             required
                             id="outlined-required"
                             label="Daomin Id"
@@ -297,8 +302,9 @@ function DomainList(props) {
                                 readOnly: true,
                             }}
                         ></TextField>
+
                         <TextField
-                            className='textField'
+                            className='TextField'
                             required
                             id="outlined-required"
                             label="Domain Name"
@@ -306,7 +312,7 @@ function DomainList(props) {
                             onChange={onDomainNameChange}
                         ></TextField>
                         <TextField
-                            className='textField'
+                            className='TextField'
                             required
                             id="outlined-required"
                             label="Domain Description"
