@@ -1,7 +1,6 @@
 import React from 'react'
 import { useQuery, gql, useMutation } from '@apollo/client'
-import './UserList.css'
-import { withStyles } from '@material-ui/core/styles'
+import './List.css'
 import {
   Table,
   TableBody,
@@ -20,37 +19,7 @@ import {
 import { Link } from 'react-router-dom'
 import Title from './Title'
 
-const styles = (theme) => ({
-  root: {
-    maxWidth: 700,
-    marginTop: theme.spacing(3),
-    overflowX: 'auto',
-    margin: 'auto',
-  },
-  table: {
-    minWidth: 700,
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    minWidth: 300,
-  },
-  modalBox: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    backgroundColor: "white",
-    border: "none",
-    boxShadow: 24,
-    padding: 24
-  },
-  navLink: {
-    textDecoration: 'none',
-    color: 'inherit',
-  }
-})
+
 
 const GET_USER = gql`
   query usersPaginateQuery(
@@ -90,8 +59,7 @@ const DETETE_USER = gql`
 `
 
 
-function UserList(props) {
-  const { classes } = props
+function UserList() {
   const [order, setOrder] = React.useState('ASC')
   const [orderBy, setOrderBy] = React.useState('name')
   /*  const [page] = React.useState(0)
@@ -199,32 +167,32 @@ function UserList(props) {
   const handleClose = () => setOpen(false);
 
   return (
-    <Paper className={classes.root}>
+    <Paper className="root">
       <div className='title-container'>
         <Title>
           User List
         </Title>
-        <Link to="/createuser" className={classes.navLink}> <Button color="primary" variant="outlined">
+        <Link to="/createuser" className="navLink"> <Button color="primary" variant="outlined">
           Create User
         </Button></Link>
       </div>
       <TextField
         id="search"
         label="User Name Contains"
-        className={classes.textField}
+        className="textField"
         value={filterState.usernameFilter}
         onChange={handleFilterChange('usernameFilter')}
         margin="normal"
         variant="outlined"
         type="text"
         InputProps={{
-          className: classes.input,
+          className: "input"
         }}
       />
       {loading && !error && <p>Loading...</p>}
       {error && !loading && <p>Error {console.log(error)}</p>}
       {data && !loading && !error && (
-        <Table className={classes.table}>
+        <Table className="table">
           <TableHead>
             <TableRow>
               <TableCell key="userId">User Id</TableCell>
@@ -284,7 +252,7 @@ function UserList(props) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box className={classes.modalBox}>
+        <Box className="modalBox">
           <Typography id="modal-modal-title" variant="h5" component="h2" >
             Update user
           </Typography>
@@ -336,4 +304,4 @@ function UserList(props) {
   )
 }
 
-export default withStyles(styles)(UserList)
+export default UserList

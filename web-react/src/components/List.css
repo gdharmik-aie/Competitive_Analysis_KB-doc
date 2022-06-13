@@ -1,3 +1,37 @@
+.root {
+  max-width: 700;
+  margin-top: 3px;
+  overflow-x: auto;
+  margin: auto;
+}
+
+.table {
+  min-width: 700;
+}
+
+.textField {
+  margin-left: 1;
+  margin-right: 1;
+  min-width: 300;
+}
+
+.modalBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400;
+  background-color: white;
+  border: none;
+  box-shadow: 14;
+  padding: 14;
+}
+
+.navLink {
+  text-decoration: none;
+  color: inherit;
+}
+
 .MuiFormControl-root.textField {
   margin: 0.5rem 0;
   width: 100%;

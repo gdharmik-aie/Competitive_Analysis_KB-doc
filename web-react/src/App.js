@@ -30,6 +30,7 @@ import {
   People as PeopleIcon,
 } from '@material-ui/icons'
 import Dashboard from './components/Dashboard'
+import UserList from './components/List'
 import CreateDomain from './components/Domain/CreateDomain'
 import DomainDetails from './components/Domain/DomainDetails'
 
@@ -166,11 +167,11 @@ export default function App() {
             >
               <MenuIcon />
             </IconButton>
-            <img
+            {/*  <img
               className={classes.appBarImage}
               src="img/grandstack.png"
               alt="GRANDstack logo"
-            />
+            /> */}
             <Typography
               component="h1"
               variant="h6"
@@ -178,7 +179,7 @@ export default function App() {
               noWrap
               className={classes.title}
             >
-              Welcome To GRANDstack App
+              Welcome To Competitive Analysis
             </Typography>
           </Toolbar>
         </AppBar>
@@ -213,14 +214,14 @@ export default function App() {
                 <ListItemText primary="Domain" />
               </ListItem>
             </Link>
-            {/* <Link to="/createuser" className={classes.navLink}>
+            <Link to="/userList" className={classes.navLink}>
               <ListItem button>
                 <ListItemIcon>
                   <PeopleIcon />
                 </ListItemIcon>
-                <ListItemText primary="Create user" />
+                <ListItemText primary="user list" />
               </ListItem>
-            </Link> */}
+            </Link>
           </List>
           <Divider />
         </Drawer>
@@ -229,7 +230,7 @@ export default function App() {
           <Container maxWidth="lg" className={classes.container}>
             <Switch>
               <Route exact path="/" component={Dashboard} />
-              {/* <Route exact path="/businesses" component={UserList} /> */}
+              <Route exact path="/userList" component={UserList} />
               <Route exact path="/domain" component={DomainList} />
               <Route exact path="/detailsDomain" component={DomainDetails} />
               <Route exact path="/createDomain" component={CreateDomain} />

@@ -55,14 +55,8 @@ const styles = (theme) => ({
 })
 
 const GET_DOMAIN = gql`
-  query domainsPaginateQuery(
-    $orderBy: [DomainSort]
-    $filter: DomainWhere
-  ) {
-    domains(
-      options: {sort: $orderBy }
-      where: $filter
-    ) {
+  query domainsPaginateQuery($orderBy: [DomainSort] $filter: DomainWhere) {
+    domains(options: {sort: $orderBy }where: $filter) {
       domainId
       name
       description
