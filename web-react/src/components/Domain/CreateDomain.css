@@ -1,0 +1,8 @@
+.hidden-message {
+  display: none;
+}
+
+.Success-message {
+  display: block;
+  color: green;
+}
