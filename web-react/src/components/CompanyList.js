@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery, gql, useMutation } from '@apollo/client'
-import './UserList.css'
+import './CompanyList.css'
 import { withStyles } from '@material-ui/core/styles'
 import {
   Table,
@@ -53,53 +53,64 @@ const styles = (theme) => ({
 })
 
 const GET_COMPANY = gql`
-  query usersPaginateQuery($orderBy: [UserSort], $filter: UserWhere) {
-    users(options: { sort: $orderBy }, where: $filter) {
-      id: userId
+  query companiesPaginateQuery($orderBy: [CompanySort], $filter: CompanyWhere) {
+    companies(options: { sort: $orderBy }, where: $filter) {
       name
-      avgStars
-      numReviews
+      description
+      website
+      city
+      region
+      country
+      domain
     }
   }
 `
 
-const UPDATE_USER = gql`
-  mutation userUpdateMutationQuery(
-    $where: UserWhere
-    $update: UserUpdateInput
+const UPDATE_COMPANY = gql`
+  mutation companyUpdateMutationQuery(
+    $where: CompanyWhere
+    $update: CompanyUpdateInput
   ) {
-    updateUsers(where: $where, update: $update) {
-      users {
-        userId
+    updateCompanies(where: $where, update: $update) {
+      companies {
         name
+        description
       }
     }
   }
 `
-const DETETE_USER = gql`
-  mutation userDeleteMutationQuery($where: UserWhere) {
-    deleteUsers(where: $where) {
+const DELETE_COMPANY = gql`
+  mutation companyDeleteMutationQuery($where: CompanyWhere) {
+    deleteCompanies(where: $where) {
       nodesDeleted
     }
   }
 `
 
-function UserList(props) {
+function CompanyList(props) {
   const { classes } = props
   const [order, setOrder] = React.useState('ASC')
   const [orderBy, setOrderBy] = React.useState('name')
   /*  const [page] = React.useState(0)
    const [rowsPerPage] = React.useState(10) */
-  const [filterState, setFilterState] = React.useState({ usernameFilter: '' })
+  const [filterState, setFilterState] = React.useState({
+    companynameFilter: '',
+  })
   const [open, setOpen] = React.useState(false)
-  const [updateUser, setUpdateUser] = React.useState({})
-  const [userId, setUserId] = React.useState('')
-  const [userName, setUserName] = React.useState('')
+  /* const [updateCompany, setUpdateCompany] = React.useState('') */
+  const [companyId, setCompanyId] = React.useState('')
+  const [companyName, setCompanyName] = React.useState('')
+  const [companyDescription, setCompanyDescription] = React.useState('')
+  const [companyWebsite, setCompanyWebsite] = React.useState('')
+  const [companyCity, setCompanyCity] = React.useState('')
+  const [companyRegion, setCompanyRegion] = React.useState('')
+  const [companyCountry, setCompanyCountry] = React.useState('')
+  const [companyDomain, setCompanyDomain] = React.useState('')
   //const [userData, setUserData] = React.useState({})
 
   const getFilter = () => {
-    return filterState.usernameFilter.length > 0
-      ? { name_CONTAINS: filterState.usernameFilter }
+    return filterState.companynameFilter.length > 0
+      ? { name_CONTAINS: filterState.companynameFilter }
       : {}
   }
 
@@ -111,23 +122,33 @@ function UserList(props) {
   })
 
   const [
-    updateUsers,
+    updateCompanies,
     { loading: mutationLoading, error: mutationError },
-  ] = useMutation(UPDATE_USER, {
+  ] = useMutation(UPDATE_COMPANY, {
     variables: {
-      where: { userId: userId },
-      update: { userId: userId, name: userName },
+      where: { companyId: companyId },
+      update: {
+        name: companyName,
+        description: companyDescription,
+        website: companyWebsite,
+        city: companyCity,
+        region: companyRegion,
+        country: companyCountry,
+        domain: companyDomain,
+      },
     },
   })
 
   const [
-    deleteUsers,
+    deleteCompanies,
     {
       data: deleteMutationData,
       loading: deletMutaionLoading,
       error: deleteMutationError,
     },
-  ] = useMutation(DETETE_USER, { variables: { where: { userId: userId } } })
+  ] = useMutation(DELETE_COMPANY, {
+    variables: { where: { companyId: companyId } },
+  })
 
   const handleSortRequest = (property) => {
     const newOrderBy = property
@@ -149,29 +170,59 @@ function UserList(props) {
       [filterName]: val,
     }))
   }
-  const onUpdateUser = (n) => {
+  const onUpdateCompany = (n) => {
     //console.log("here:", n)
-    setUpdateUser(n)
-    setUserId(n.id)
+    setCompanyId(n.id)
+    setCompanyName(n.name)
+    setCompanyDescription(n.description)
+    setCompanyWebsite(n.website)
+    setCompanyCity(n.city)
+    setCompanyRegion(n.region)
+    setCompanyCountry(n.country)
     setOpen(true)
   }
 
-  const onUserIdChange = (e) => {
-    const userId = e.target.value
-    setUserId(userId)
-    console.log(userId)
+  const onCompanyNameChange = (e) => {
+    const companyName = e.target.value
+    setCompanyName(companyName)
+    console.log(companyName)
   }
 
-  const onUserNameChange = (e) => {
-    const userName = e.target.value
-    setUserName(userName)
-    console.log(userName)
+  const onCompanyDescriptionChange = (e) => {
+    const companyDescription = e.target.value
+    setCompanyDescription(companyDescription)
+    console.log(companyDescription)
+  }
+
+  const onCompanyWebsiteChange = (e) => {
+    const companyWebsite = e.target.value
+    setCompanyWebsite(companyWebsite)
+  }
+
+  const onCompanyCityChange = (e) => {
+    const companyCity = e.target.value
+    setCompanyCity(companyCity)
+  }
+
+  const onCompanyRegionChange = (e) => {
+    const companyRegion = e.target.value
+    setCompanyRegion(companyRegion)
+  }
+
+  const onCompanyCountryChange = (e) => {
+    const companyCountry = e.target.value
+    setCompanyCountry(companyCountry)
+  }
+
+  const onCompanyDomainChange = (e) => {
+    const companyDomain = e.target.value
+    setCompanyDomain(companyDomain)
   }
 
   const handlerSubmit = (e) => {
     e.preventDefault()
-    updateUsers()
-    console.log(userId)
+    updateCompanies()
+    console.log(companyId)
     console.log(mutationError)
     console.log(mutationLoading)
     if (!mutationError) {
@@ -180,11 +231,11 @@ function UserList(props) {
     }
   }
 
-  const OnDeleteUser = (n) => {
-    setUpdateUser(n)
-    setUserId(n.id)
-    if (userId) {
-      deleteUsers()
+  const OnDeleteCompany = (n) => {
+    // setUpdateCompany(n)
+    setCompanyId(n.id)
+    if (companyId) {
+      deleteCompanies()
       window.location.reload()
     }
     console.log(deleteMutationError)
@@ -212,8 +263,8 @@ function UserList(props) {
         id="search"
         label="Company Name Contains"
         className={classes.textField}
-        value={filterState.usernameFilter}
-        onChange={handleFilterChange('usernameFilter')}
+        value={filterState.companynameFilter}
+        onChange={handleFilterChange('companynameFilter')}
         margin="normal"
         variant="outlined"
         type="text"
@@ -247,22 +298,28 @@ function UserList(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.users.map((n, i) => {
+            {data.companies.map((n, i) => {
               return (
                 <TableRow key={i}>
                   <TableCell component="th" scope="row">
-                    {n.id}
+                    {n.companyid}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {n.name}
+                    <Link
+                      to={{
+                        pathname: '/detailsCompany',
+                        state: { name: n.name },
+                      }}
+                    >
+                      {n.name}
+                    </Link>
                   </TableCell>
                   <TableCell>
-                    {n.avgStars ? n.avgStars.toFixed(2) : '-'}
-                  </TableCell>
-                  <TableCell>{n.numReviews}</TableCell>
-                  <TableCell>
-                    <Button variant="outlined" onClick={() => onUpdateUser(n)}>
-                      update
+                    <Button
+                      variant="outlined"
+                      onClick={() => onUpdateCompany(n)}
+                    >
+                      Update Company
                     </Button>
                   </TableCell>
                   <TableCell>
@@ -270,9 +327,9 @@ function UserList(props) {
                       className="formButton"
                       color="default"
                       variant="contained"
-                      onClick={() => OnDeleteUser(n)}
+                      onClick={() => OnDeleteCompany(n)}
                     >
-                      Delete
+                      Delete Company
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -290,7 +347,7 @@ function UserList(props) {
       >
         <Box className={classes.modalBox}>
           <Typography id="modal-modal-title" variant="h5" component="h2">
-            Update user
+            Update Company
           </Typography>
 
           <form onSubmit={handlerSubmit}>
@@ -298,38 +355,65 @@ function UserList(props) {
               className="textField"
               required
               id="outlined-required"
-              label="User Id"
-              defaultValue={updateUser.id}
-              onChange={onUserIdChange}
+              label="Company Id"
+              defaultValue={companyId}
             ></TextField>
             <TextField
               className="textField"
               required
               id="outlined-required"
-              label="User Name"
-              defaultValue={updateUser.name}
-              onChange={onUserNameChange}
+              label="Company Name"
+              defaultValue={companyName}
+              onChange={onCompanyNameChange}
             ></TextField>
-            <div className="textfield-container">
-              <TextField
-                className="textField"
-                id="outlined-required"
-                label="Review Count"
-                defaultValue={updateUser.numReviews}
-                InputProps={{
-                  readOnly: true,
-                }}
-              ></TextField>
-              <TextField
-                className="textField"
-                id="outlined-required"
-                label="Average star"
-                defaultValue={updateUser.avgStars}
-                InputProps={{
-                  readOnly: true,
-                }}
-              ></TextField>
-            </div>
+            <TextField
+              className="textField"
+              required
+              id="outlined-required"
+              label="Company Description"
+              defaultValue={companyDescription}
+              onChange={onCompanyDescriptionChange}
+            ></TextField>
+            <TextField
+              className="textField"
+              required
+              id="outlined-required"
+              label="Company Website"
+              defaultValue={companyWebsite}
+              onChange={onCompanyWebsiteChange}
+            ></TextField>
+            <TextField
+              className="textField"
+              required
+              id="outlined-required"
+              label="Company City"
+              defaultValue={companyCity}
+              onChange={onCompanyCityChange}
+            ></TextField>
+            <TextField
+              className="textField"
+              required
+              id="outlined-required"
+              label="Company Region"
+              defaultValue={companyRegion}
+              onChange={onCompanyRegionChange}
+            ></TextField>
+            <TextField
+              className="textField"
+              required
+              id="outlined-required"
+              label="Company Country"
+              defaultValue={companyCountry}
+              onChange={onCompanyCountryChange}
+            ></TextField>
+            <TextField
+              className="textField"
+              required
+              id="outlined-required"
+              label="Company Domain"
+              defaultValue={companyDomain}
+              onChange={onCompanyDomainChange}
+            ></TextField>
             <div className="button-container">
               <Button
                 className="formButton"
@@ -347,4 +431,4 @@ function UserList(props) {
   )
 }
 
-export default withStyles(styles)(UserList)
+export default withStyles(styles)(CompanyList)

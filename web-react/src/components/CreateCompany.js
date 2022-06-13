@@ -42,6 +42,7 @@ const CREATE_COMPANY = gql`
 `
 function CreateCompany(props) {
   const { classes } = props
+  /*  const [companyId, setCompanyId] = React.useState('') */
   const [companyName, setCompanyName] = React.useState('')
   const [companyDescription, setCompanyDescription] = React.useState('')
   const [companyWebsite, setCompanyWebsite] = React.useState('')

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 
-import UserList from './components/UserList'
+import CompanyList from './components/CompanyList'
 
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
@@ -30,7 +30,7 @@ import {
   People as PeopleIcon,
 } from '@material-ui/icons'
 import Dashboard from './components/Dashboard'
-import CreateUser from './components/CreateUser'
+import CreateCompany from './components/CreateCompany'
 
 function Copyright() {
   return (
@@ -236,9 +236,9 @@ export default function App() {
           <Container maxWidth="lg" className={classes.container}>
             <Switch>
               <Route exact path="/" component={Dashboard} />
-              <Route exact path="/businesses" component={UserList} />
-              <Route exact path="/users" component={UserList} />
-              <Route exact path="/createuser" component={CreateUser} />
+              <Route exact path="/businesses" component={CompanyList} />
+              <Route exact path="/users" component={CompanyList} />
+              <Route exact path="/createuser" component={CreateCompany} />
             </Switch>
 
             <Box pt={4}>
