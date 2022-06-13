@@ -53,15 +53,15 @@ const styles = (theme) => ({
 })
 
 const GET_COMPANY = gql`
-  query companiesPaginateQuery($orderBy: [CompanySort], $filter: CompanyWhere) {
-    companies(options: { sort: $orderBy }, where: $filter) {
-      name
-      description
-      website
-      city
-      region
-      country
-      domain
+  query companiesPaginateQuery($orderBy: [CompanySort] $filter: CompanyWhere) {
+    companies(options: { sort: $orderBy } where: $filter) {
+       comapnyId
+       name
+       description
+       website
+       city
+       region
+       country
     }
   }
 `
@@ -252,8 +252,7 @@ function CompanyList(props) {
     <Paper className={classes.root}>
       <div className="title-container">
         <Title>Company List</Title>
-        <Link to="/createuser" className={classes.navLink}>
-          {' '}
+        <Link to="/createCompany" className={classes.navLink}>
           <Button color="primary" variant="outlined">
             Add Company
           </Button>
@@ -302,7 +301,7 @@ function CompanyList(props) {
               return (
                 <TableRow key={i}>
                   <TableCell component="th" scope="row">
-                    {n.companyid}
+                    {n.comapnyId}
                   </TableCell>
                   <TableCell component="th" scope="row">
                     <Link

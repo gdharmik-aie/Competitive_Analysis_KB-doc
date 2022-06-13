@@ -214,7 +214,7 @@ export default function App() {
                 <ListItemText primary="Domain" />
               </ListItem>
             </Link>
-            {/* <Link to="/createuser" className={classes.navLink}>
+            <Link to="/companyList" className={classes.navLink}>
               <ListItem button>
                 <ListItemIcon>
                   <PeopleIcon />
@@ -222,7 +222,7 @@ export default function App() {
                 <ListItemText primary="Company" />
               </ListItem>
             </Link>
-            <Link to="/createuser" className={classes.navLink}>
+            {/*    <Link to="/offeringList" className={classes.navLink}>
               <ListItem button>
                 <ListItemIcon>
                   <PeopleIcon />
@@ -239,9 +239,9 @@ export default function App() {
             <Switch>
               <Route exact path="/" component={Dashboard} />
 
-              <Route exact path="/businesses" component={CompanyList} />
-              <Route exact path="/users" component={CompanyList} />
-              <Route exact path="/createuser" component={CreateCompany} />
+              {/* <Route exact path="/offeringList" component={CompanyList} /> */}
+              <Route exact path="/companyList" component={CompanyList} />
+              <Route exact path="/createCompany" component={CreateCompany} />
               {/* <Route exact path="/businesses" component={UserList} /> */}
               <Route exact path="/domain" component={DomainList} />
               <Route exact path="/detailsDomain" component={DomainDetails} />

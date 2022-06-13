@@ -127,8 +127,7 @@ function CreateCompany(props) {
     <Paper className={classes.root}>
       <div className="title-container">
         <Title>Add Company</Title>
-        <Link to="/users" className={classes.navLink}>
-          {' '}
+        <Link to="/companyList" className={classes.navLink}>
           <Button color="primary" variant="outlined">
             Company List
           </Button>
