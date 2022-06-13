@@ -1,7 +1,6 @@
 import React from 'react'
-
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
-
+import CompanyList from './components/CompanyList'
 import DomainList from './components/Domain/DomainList'
 
 import clsx from 'clsx'
@@ -30,8 +29,10 @@ import {
   People as PeopleIcon,
 } from '@material-ui/icons'
 import Dashboard from './components/Dashboard'
+import CreateCompany from './components/CreateCompany'
 import CreateDomain from './components/Domain/CreateDomain'
 import DomainDetails from './components/Domain/DomainDetails'
+
 
 function Copyright() {
   return (
@@ -213,12 +214,20 @@ export default function App() {
                 <ListItemText primary="Domain" />
               </ListItem>
             </Link>
-            {/* <Link to="/createuser" className={classes.navLink}>
+            <Link to="/companyList" className={classes.navLink}>
               <ListItem button>
                 <ListItemIcon>
                   <PeopleIcon />
                 </ListItemIcon>
-                <ListItemText primary="Create user" />
+                <ListItemText primary="Company" />
+              </ListItem>
+            </Link>
+            {/*    <Link to="/offeringList" className={classes.navLink}>
+              <ListItem button>
+                <ListItemIcon>
+                  <PeopleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Offering" />
               </ListItem>
             </Link> */}
           </List>
@@ -229,10 +238,15 @@ export default function App() {
           <Container maxWidth="lg" className={classes.container}>
             <Switch>
               <Route exact path="/" component={Dashboard} />
+
+              {/* <Route exact path="/offeringList" component={CompanyList} /> */}
+              <Route exact path="/companyList" component={CompanyList} />
+              <Route exact path="/createCompany" component={CreateCompany} />
               {/* <Route exact path="/businesses" component={UserList} /> */}
               <Route exact path="/domain" component={DomainList} />
               <Route exact path="/detailsDomain" component={DomainDetails} />
               <Route exact path="/createDomain" component={CreateDomain} />
+
             </Switch>
 
             <Box pt={4}>
