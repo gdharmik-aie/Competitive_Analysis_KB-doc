@@ -53,15 +53,15 @@ const styles = (theme) => ({
 })
 
 const GET_COMPANY = gql`
-  query companiesPaginateQuery($orderBy: [CompanySort] $filter: CompanyWhere) {
-    companies(options: { sort: $orderBy } where: $filter) {
-       comapnyId
-       name
-       description
-       website
-       city
-       region
-       country
+  query companiesPaginateQuery($orderBy: [CompanySort], $filter: CompanyWhere) {
+    companies(options: { sort: $orderBy }, where: $filter) {
+      comapnyId
+      name
+      description
+      website
+      city
+      region
+      country
     }
   }
 `
@@ -292,8 +292,12 @@ function CompanyList(props) {
                   </TableSortLabel>
                 </Tooltip>
               </TableCell>
-              <TableCell key="avgStars">Average Stars</TableCell>
-              <TableCell key="numReviews">Number of Reviews</TableCell>
+              <TableCell key="avgStars">Description</TableCell>
+              <TableCell key="">Domain</TableCell>
+              <TableCell key="">Website</TableCell>
+              <TableCell key="">City</TableCell>
+              <TableCell key="">Region</TableCell>
+              <TableCell key="">Country</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
