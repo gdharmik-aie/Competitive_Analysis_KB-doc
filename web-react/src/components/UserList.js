@@ -118,7 +118,7 @@ function UserList(props) {
     },
   })
 
- 
+
 
   const [updateUsers, { loading: mutationLoading, error: mutationError }] = useMutation(UPDATE_USER,
     { variables: { where: { userId: userId }, update: { userId: userId, name: userName } } })
