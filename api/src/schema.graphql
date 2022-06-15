@@ -34,8 +34,8 @@ type Domain {
   domainId: ID! @id(autogenerate: true)
   name: String
   description: String
-  childDomains: [Domain] @relationship(type: "INCLUDES", direction: IN)
-  parentDomains: [Domain] @relationship(type: "INCLUDES", direction: OUT)
+  childDomains: [Domain] @relationship(type: "INCLUDES", direction: OUT)
+  parentDomains: [Domain] @relationship(type: "INCLUDES", direction: IN)
 }
 
 type Offering {
