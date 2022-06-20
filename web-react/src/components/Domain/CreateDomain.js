@@ -1,37 +1,17 @@
 import React from 'react'
 import { gql, useMutation } from '@apollo/client'
 import './CreateDomain.css'
-import { withStyles } from '@material-ui/core/styles'
 import {
     Paper,
     TextField,
     Button,
     Typography,
-} from '@material-ui/core'
+} from '@mui/material'
 import Title from '../Title'
 import { Link } from 'react-router-dom'
 
 
-const styles = (theme) => ({
-    root: {
-        maxWidth: 700,
-        marginTop: theme.spacing(3),
-        overflowX: 'auto',
-        margin: 'auto',
-    },
-    textField: {
-        margin: theme.spacing(2),
-        minWidth: 300,
-    },
-    submitButton: {
-        margin: theme.spacing(2)
 
-    },
-    navLink: {
-        textDecoration: 'none',
-        color: 'inherit',
-    }
-})
 
 const CREATE_DOMAIN = gql`
  mutation userCreateMutationQuery($input: [DomainCreateInput!]!){
@@ -46,8 +26,8 @@ const CREATE_DOMAIN = gql`
  
  
 `
-function CreateDomain(props) {
-    const { classes } = props
+function CreateDomain() {
+
     const [domainId, setDoaminId] = React.useState("")
     const [domainName, setDomainName] = React.useState("")
     const [domainDescription, setDomainDescription] = React.useState("")
@@ -86,12 +66,12 @@ function CreateDomain(props) {
 
 
     return (
-        <Paper className={classes.root}>
+        <Paper className="root">
             <div className='title-container'>
                 <Title>
                     Create Domain
                 </Title>
-                <Link to="/domain" className={classes.navLink}> <Button color="primary" variant="outlined" >
+                <Link to="/domain" className="navLink"> <Button color="primary" variant="outlined" >
                     Domain List
                 </Button></Link>
             </div>
@@ -101,15 +81,15 @@ function CreateDomain(props) {
             <form onSubmit={handlerSubmit}>
 
                 <Typography>
-                    <TextField className={classes.textField} required label="Domain Name" onChange={onDomainNameChange} value={domainName}>
+                    <TextField className="textField" required label="Domain Name" onChange={onDomainNameChange} value={domainName}>
                     </TextField>
                 </Typography>
                 <Typography>
-                    <TextField className={classes.textField} required label="Domain Description" onChange={onDomainDesChange} value={domainDescription}>
+                    <TextField className="textField" required label="Domain Description" onChange={onDomainDesChange} value={domainDescription}>
                     </TextField>
                 </Typography>
 
-                <Button className={classes.submitButton} type='submit' color='primary'>
+                <Button className="submitButton" type='submit' color='primary'>
                     Create Domain
                 </Button>
             </form>
@@ -117,4 +97,4 @@ function CreateDomain(props) {
     )
 }
 
-export default withStyles(styles)(CreateDomain)
+export default CreateDomain

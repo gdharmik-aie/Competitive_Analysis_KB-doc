@@ -1,12 +1,12 @@
 .root {
   max-width: 700;
   margin-top: 3px;
-  overflow-x: auto;
+  overflow-x: none;
   margin: auto;
 }
 
 .table {
-  min-width: 700;
+  width: 700;
 }
 
 .textField {
@@ -24,7 +24,7 @@
   background-color: white;
   border: none;
   box-shadow: 14;
-  padding: 14;
+  padding: 14px;
 }
 
 .navLink {

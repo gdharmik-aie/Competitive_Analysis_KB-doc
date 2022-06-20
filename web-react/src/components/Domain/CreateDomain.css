@@ -1,3 +1,16 @@
+.root {
+  max-width: 700;
+  margin-top: 3px;
+  overflow-x: none;
+  margin: auto;
+}
+
+.textField {
+  margin-left: 1;
+  margin-right: 1;
+  min-width: 300;
+}
+
 .hidden-message {
   display: none;
 }
@@ -5,4 +18,13 @@
 .Success-message {
   display: block;
   color: green;
+}
+
+.navLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.submitButton {
+  margin: 2px;
 }

@@ -20,7 +20,7 @@ import {
   Typography,
   Box,
   CardContent,
-} from '@material-ui/core'
+} from '@mui/material'
 import { Link } from 'react-router-dom'
 import Title from '../Title'
 
