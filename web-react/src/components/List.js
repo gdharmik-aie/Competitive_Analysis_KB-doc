@@ -7,18 +7,11 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Button
+  Button,
 } from '@mui/material'
 import { Link } from 'react-router-dom'
-import Title from './Title'
 
-
-function List({ data,
-  title,
-  loading,
-  error,
-  onUpdateClick,
-}) {
+function List({ data, title, loading, error, onUpdateClick }) {
   /*  const [entityData, setEntityData] = React.useState([])
  
    useEffect(() => {
@@ -38,8 +31,6 @@ function List({ data,
   /*  const [Id, setId] = React.useState("")
    const [name, setName] = React.useState("")
    const [description, setDescription] = React.useState("") */
-
-
 
   /*
     const onNameChange = (e) => {
@@ -76,56 +67,45 @@ function List({ data,
   
    const handleClose = () => setOpen(false); */
 
-
   return (
     <Paper className="root">
-      <div className='title-container'>
-        <Title>
-          {title}
-        </Title>
-        <Link to={`/create${title}`} className="navLink"> <Button color="primary" variant="outlined">
-          Create {title}
-        </Button></Link>
-      </div>
-
-
       {loading && !error && <p>Loading...</p>}
       {error && !loading && <p>Error {console.log(error)}</p>}
-      {
-        data && !loading && !error && (
-          <Table className="table">
-            <TableHead>
-              <TableRow>
-                <TableCell> Name</TableCell>
-                <TableCell >Description</TableCell>
-                <TableCell></TableCell>
-
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map((n, i) => {
-                return (
-                  <TableRow key={i}>
-                    <TableCell component="th" scope="row">
-                      <Link to={{ pathname: `/details${title}`, state: { name: n.name } }}  >
-                        {n.name}
-                      </Link>
-                    </TableCell>
-                    <TableCell>{n.description}</TableCell>
-                    <TableCell>
-                      <Button
-                        variant="outlined"
-                        onClick={() => onUpdateClick(n)}>update
-                      </Button>
-                    </TableCell>
-
-                  </TableRow>
-                )
-              })}
-            </TableBody>
-          </Table>
-        )
-      }
+      {data && !loading && !error && (
+        <Table className="table">
+          <TableHead>
+            <TableRow>
+              <TableCell> Name</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.map((n, i) => {
+              return (
+                <TableRow key={i}>
+                  <TableCell component="th" scope="row">
+                    <Link
+                      to={{
+                        pathname: `/details${title}`,
+                        state: { name: n.name },
+                      }}
+                    >
+                      {n.name}
+                    </Link>
+                  </TableCell>
+                  <TableCell>{n.description}</TableCell>
+                  <TableCell>
+                    <Button variant="outlined" onClick={() => onUpdateClick(n)}>
+                      update
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              )
+            })}
+          </TableBody>
+        </Table>
+      )}
 
       {/*   <Modal
         open={open}
@@ -164,7 +144,7 @@ function List({ data,
           </form>
         </Box>
       </Modal> */}
-    </Paper >
+    </Paper>
   )
 }
 

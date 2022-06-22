@@ -28,3 +28,10 @@
 .MuiButtonBase-root.formButton {
   margin: 0.5rem 0 0.5rem 0.7rem;
 }
+
+.toggle-button {
+display: flex;
+justify-content: right;
+margin-right: 2rem;
+margin-top: 1rem;
+}
