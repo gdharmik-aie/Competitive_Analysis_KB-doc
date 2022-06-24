@@ -1,7 +1,6 @@
 .root {
   margin-top: 13px;
   overflow-x: none;
-  margin: auto;
   padding: 16px;
 }
 
@@ -18,6 +17,17 @@
 }
 
 .MuiTextField-root.textField {
-  width: 35%;
   padding: 0 5px 0 5px;
+}
+
+.MuiCard-root.cardDetail {
+  box-shadow: none;
+}
+
+.MuiBox-root.tabPanel {
+  padding: 0;
+}
+
+.MuiPaper-root.domainDeatils {
+  margin-top: 3px;
 }

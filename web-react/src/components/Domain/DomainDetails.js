@@ -4,61 +4,99 @@ import { useLocation } from 'react-router-dom'
 
 import { useQuery, gql } from '@apollo/client'
 import './DomainDetails.css'
-
+import List from '../List'
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
   Paper,
-  Button,
-  // TextField,
-  // InputLabel,
   Card,
   CardActions,
   Typography,
   Box,
   CardContent,
 } from '@mui/material'
-import { Link } from 'react-router-dom'
-import Title from '../Title'
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Heading from '../Heading'
+import UpdateDomain from './UpdateDomain'
 
 const GET_DOMAIN = gql`
   query domainsPaginateQuery($where: DomainWhere) {
-    domains(where: $where) {
-      domainId
+    domains(where: $where)
+      {
+    id
+    name
+    description
+    childDomains {
+      id
       name
       description
-      parentDomains {
-        domainId
-        name
-        description
-      }
+    }
+    parentDomains {
+      id
+      name
+      description
+    }
     }
   }
 `
 
+
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }} className="tabPanel">
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
 function DomainDetails() {
   const location = useLocation()
   const { name } = location.state
+
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const [open, setOpen] = React.useState(false);
+  const [domainData, setDomainData] = React.useState("")
+
   const { loading, data, error } = useQuery(GET_DOMAIN, {
     variables: { where: { name: name } },
   })
   //console.log(data.domains[0].parentDomains)
 
-  return (
-    <Paper className="root">
-      <div className="title-container">
-        <Title>Domain Details</Title>
-        <Link to="/domain" className="navLink">
-          {' '}
-          <Button color="primary" variant="outlined">
-            Domain List
-          </Button>
-        </Link>
-      </div>
 
+  const onUpdateClick = (n) => {
+    // console.log("here:", n)
+    setDomainData(n)
+    setOpen(true)
+  }
+
+
+
+  return (
+    <div>
       {loading && !error && <p>Loading...</p>}
       {error && !loading && <p>Error {console.log(error)}</p>}
       {data && !loading && !error && (
@@ -66,65 +104,71 @@ function DomainDetails() {
           {data.domains.map((n, i) => {
             return (
               <div key={i}>
-                <Box sx={{ width: '30%' }}>
-                  <div style={{ display: 'inline-block' }}>
-                    <Card variant="outlined">
-                      <React.Fragment>
-                        <CardContent>
-                          <Typography
-                            sx={{ fontSize: 14 }}
-                            color="text.secondary"
-                            gutterBottom
-                          >
-                            ID: {n.domainId}
-                          </Typography>
-                          <Typography variant="h5" component="div">
-                            Name: {n.name}
-                          </Typography>
-                          <Typography variant="body2">
-                            Description: {n.description}
-                          </Typography>
-                        </CardContent>
-                        <CardActions>
-                          <Button size="small">Learn More</Button>
-                        </CardActions>
-                      </React.Fragment>
-                    </Card>
-                  </div>
-                </Box>
-                <div className="title-container">
-                  <Title>Domain parent domain Details</Title>
-                </div>
-                <Table className="table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell key="userId">Domain Id</TableCell>
-                      <TableCell key="name">Name</TableCell>
-                      <TableCell key="numReviews">Domain Description</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {data.domains[i].parentDomains.map((n, j) => {
-                      return (
-                        <TableRow key={j}>
-                          <TableCell component="th" scope="row">
-                            {n.domainId}
-                          </TableCell>
-                          <TableCell component="th" scope="row">
-                            {n.name}
-                          </TableCell>
-                          <TableCell>{n.description}</TableCell>
-                        </TableRow>
-                      )
-                    })}
-                  </TableBody>
-                </Table>
+                <Paper className="root domainDeatils" >
+                  <Card className='cardDetail'>
+                    <Heading title="Domain Details" linkName="Domain List"></Heading>
+                    <React.Fragment>
+                      <CardContent>
+                        <Typography variant="h5" component="div">
+                          Name: {n.name}
+                        </Typography>
+                        <Typography variant="body1">
+                          Description: {n.description}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                      </CardActions>
+                    </React.Fragment>
+                  </Card>
+                </Paper>
+
+
+                <Paper className="domainDeatils " >
+                  <Box sx={{ width: '100%' }}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }} >
+                      <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                        <Tab label="Parent domain" {...a11yProps(0)} />
+                        <Tab label="Child domain" {...a11yProps(1)} />
+                      </Tabs>
+                    </Box>
+                    <TabPanel value={value} index={0}>
+                      <List
+                        data={data.domains[i].parentDomains}
+                        title="Domain"
+                        linkName="Create Domain"
+                        loading={loading}
+                        error={error}
+                        onUpdateClick={onUpdateClick}
+                      />
+
+                    </TabPanel>
+                    <TabPanel value={value} index={1}>
+                      <List
+                        data={data.domains[i].childDomains}
+                        title="Domain"
+                        linkName="Create Domain"
+                        loading={loading}
+                        error={error}
+                        onUpdateClick={onUpdateClick}
+                      />
+                    </TabPanel>
+
+                  </Box>
+                  {domainData ? <UpdateDomain
+                    open={open}
+                    setOpen={setOpen}
+                    domainData={domainData}
+                  /> : ""}
+                </Paper>
+
               </div>
             )
           })}
+
         </div>
       )}
-    </Paper>
+
+    </div>
   )
 }
 

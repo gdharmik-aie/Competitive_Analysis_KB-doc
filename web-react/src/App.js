@@ -3,6 +3,8 @@ import React from 'react'
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import './App.css'
 import DomainList from './components/Domain/DomainList'
+import CompanyList from './components/Company/CompanyList'
+import OfferingList from './components/Offering/OfferingList'
 
 import clsx from 'clsx'
 
@@ -118,7 +120,7 @@ export default function App() {
               </ListItem>
             </Link>
 
-            <Link to="/domain" className="navLink">
+            <Link to="/domainList" className="navLink">
               <ListItem button>
                 <ListItemIcon>
                   <PeopleIcon />
@@ -126,16 +128,34 @@ export default function App() {
                 <ListItemText primary="Domain" />
               </ListItem>
             </Link>
+            <Link to="/companyList" className="navLink">
+              <ListItem button>
+                <ListItemIcon>
+                  <PeopleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Company" />
+              </ListItem>
+            </Link>
+            <Link to="/offeringList" className="navLink">
+              <ListItem button>
+                <ListItemIcon>
+                  <PeopleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Offering" />
+              </ListItem>
+            </Link>
           </List>
           <Divider />
         </Drawer>
-        <main className={open ? "contentShrink" :"content"}>
+        <main className={open ? "contentShrink" : "content"}>
           <div className="appBarSpacer" />
           <Container maxWidth="lg" className="container">
             <Switch>
               <Route exact path="/" component={Dashboard} />
               <Route exact path="/userList" component={UserList} />
-              <Route exact path="/domain" component={DomainList} />
+              <Route exact path="/domainList" component={DomainList} />
+              <Route exact path="/companyList" component={CompanyList} />
+              <Route exact path="/offeringList" component={OfferingList} />
               <Route exact path="/detailsDomain" component={DomainDetails} />
               <Route exact path="/createDomain" component={CreateDomain} />
             </Switch>

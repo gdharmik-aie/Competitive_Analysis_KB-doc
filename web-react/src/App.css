@@ -14,6 +14,13 @@
   transition: ease;
 }
 
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem;
+  margin-bottom: 0;
+}
+
 .css-jz7rmq-MuiPaper-root-MuiAppBar-root.appBarShift {
   margin-left: 240px;
   width: calc(100% - 240px);
@@ -60,8 +67,7 @@ title {
   margin-left: 240px;
 }
 .container {
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding: 0;
 }
 
 .fixedHeight {

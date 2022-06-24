@@ -45,7 +45,7 @@
 .title-container {
   display: flex;
   justify-content: space-between;
-  margin: 1rem;
+  margin: 0.5rem;
   margin-bottom: 0;
 }
 
@@ -60,5 +60,5 @@
 }
 
 .MuiButtonBase-root.formButton {
-  margin: 0.5rem 0 0.5rem 0.7rem;
+  margin: 0.5rem 0.3rem 0.5rem 0.3rem;
 }
