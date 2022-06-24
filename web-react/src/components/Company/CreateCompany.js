@@ -1,29 +1,10 @@
 import React from 'react'
 import { gql, useMutation } from '@apollo/client'
-import { withStyles } from '@material-ui/core/styles'
-import { Paper, TextField, Button, Typography } from '@material-ui/core'
-import Title from './Title'
+import { Paper, TextField, Button, Typography } from '@mui/material'
+import Title from '../Title'
 import { Link } from 'react-router-dom'
 
-const styles = (theme) => ({
-  root: {
-    maxWidth: 700,
-    marginTop: theme.spacing(3),
-    overflowX: 'auto',
-    margin: 'auto',
-  },
-  textField: {
-    margin: theme.spacing(2),
-    minWidth: 300,
-  },
-  submitButton: {
-    margin: theme.spacing(2),
-  },
-  navLink: {
-    textDecoration: 'none',
-    color: 'inherit',
-  },
-})
+
 
 const CREATE_COMPANY = gql`
   mutation companyCreateMutationQuery($input: [CompanyCreateInput!]!) {
@@ -40,8 +21,8 @@ const CREATE_COMPANY = gql`
     }
   }
 `
-function CreateCompany(props) {
-  const { classes } = props
+function CreateCompany() {
+
   /*  const [companyId, setCompanyId] = React.useState('') */
   const [companyName, setCompanyName] = React.useState('')
   const [companyDescription, setCompanyDescription] = React.useState('')
@@ -124,10 +105,10 @@ function CreateCompany(props) {
   }
 
   return (
-    <Paper className={classes.root}>
+    <Paper className="root">
       <div className="title-container">
         <Title>Add Company</Title>
-        <Link to="/companyList" className={classes.navLink}>
+        <Link to="/companyList" className="navLink">
           <Button color="primary" variant="outlined">
             Company List
           </Button>
@@ -137,7 +118,7 @@ function CreateCompany(props) {
       <form onSubmit={handlerSubmit}>
         <Typography>
           <TextField
-            className={classes.textField}
+            className="textField"
             required
             label="Company Name"
             onChange={onCompanyNameChange}
@@ -146,7 +127,7 @@ function CreateCompany(props) {
         </Typography>
         <Typography>
           <TextField
-            className={classes.textField}
+            className="textField"
             required
             label="Company Description"
             onChange={onCompanyDescriptionChange}
@@ -155,7 +136,7 @@ function CreateCompany(props) {
         </Typography>
         <Typography>
           <TextField
-            className={classes.textField}
+            className="textField"
             required
             label="Company Website"
             onChange={onCompanyWebsiteChange}
@@ -164,7 +145,7 @@ function CreateCompany(props) {
         </Typography>
         <Typography>
           <TextField
-            className={classes.textField}
+            className="textField"
             required
             label="Company City"
             onChange={onCompanyCityChange}
@@ -173,7 +154,7 @@ function CreateCompany(props) {
         </Typography>
         <Typography>
           <TextField
-            className={classes.textField}
+            className="textField"
             required
             label="Company Region"
             onChange={onCompanyRegionChange}
@@ -182,7 +163,7 @@ function CreateCompany(props) {
         </Typography>{' '}
         <Typography>
           <TextField
-            className={classes.textField}
+            className="textField"
             required
             label="Company Country"
             onChange={onCompanyCountryChange}
@@ -191,7 +172,7 @@ function CreateCompany(props) {
         </Typography>
         <Typography>
           <TextField
-            className={classes.textField}
+            className="textField"
             required
             label="Company Domain"
             onChange={onCompanyDomainChange}
@@ -200,7 +181,7 @@ function CreateCompany(props) {
         </Typography>
         <Button
           onClick={onCreateCompany}
-          className={classes.submitButton}
+          className="submitButton"
           type="submit"
         >
           Create
@@ -210,4 +191,4 @@ function CreateCompany(props) {
   )
 }
 
-export default withStyles(styles)(CreateCompany)
+export default CreateCompany

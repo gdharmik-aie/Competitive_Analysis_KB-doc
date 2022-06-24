@@ -1,0 +1,85 @@
+.MuiToolbar-root.toolbar {
+  padding-right: 24px;
+}
+
+.toolbarIcon {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 8px;
+}
+
+.appBar {
+  z-index: 1;
+  transition: ease;
+}
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem;
+  margin-bottom: 0;
+}
+
+.css-jz7rmq-MuiPaper-root-MuiAppBar-root.appBarShift {
+  margin-left: 240px;
+  width: calc(100% - 240px);
+  transition: ease;
+}
+
+.menuButton {
+  margin-right: 36px;
+}
+
+.menuButtonHidden {
+  display: none;
+}
+
+title {
+  flex-grow: 1;
+}
+
+.drawerPaper {
+  position: relative;
+  white-space: nowrap;
+  width: 240px;
+  transition: ease;
+}
+
+.drawerPaperClose {
+  overflow-x: hidden;
+  transition: ease;
+  width: 0;
+}
+
+.appBarSpacer {
+  padding-left: 24px;
+}
+
+.content {
+  margin-top: 64px;
+  flex-grow: 1;
+  height: 100vh;
+}
+
+.contentShrink {
+  margin-top: 64px;
+  margin-left: 240px;
+}
+.container {
+  padding: 0;
+}
+
+.fixedHeight {
+  height: 240px;
+}
+
+.navLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.appBarImage {
+  max-height: 75px;
+  padding-right: 20px;
+}

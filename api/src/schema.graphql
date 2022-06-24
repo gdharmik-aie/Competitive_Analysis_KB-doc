@@ -8,7 +8,7 @@ directive @id(
 ) on FIELD_DEFINITION
 
 type Company {
-  comapnyId: ID! @id(autogenerate: true)
+  id: ID! @id(autogenerate: true)
   name: String
   description: String
   website: String
@@ -32,15 +32,15 @@ type Company {
 }
 
 type Domain {
-  domainId: ID! @id(autogenerate: true)
+  id: ID! @id(autogenerate: true)
   name: String
   description: String
-  childDomains: [Domain] @relationship(type: "INCLUDES", direction: IN)
-  parentDomains: [Domain] @relationship(type: "INCLUDES", direction: OUT)
+  childDomains: [Domain] @relationship(type: "INCLUDES", direction: OUT)
+  parentDomains: [Domain] @relationship(type: "INCLUDES", direction: IN)
 }
 
 type Offering {
-  offeringId: ID! @id(autogenerate: true)
+  id: ID! @id(autogenerate: true)
   name: String
   description: String
   primaryDomain: [Domain] @relationship(type: "PRIMAY_DOMAIN", direction: OUT)
