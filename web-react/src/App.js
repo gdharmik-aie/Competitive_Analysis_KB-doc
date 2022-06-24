@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import './App.css'
 import DomainList from './components/Domain/DomainList'
@@ -32,9 +31,10 @@ import {
   People as PeopleIcon,
 } from '@mui/icons-material'
 import Dashboard from './components/Dashboard'
-import UserList from './components/List'
+import CreateCompany from './components/Company/CreateCompany'
 import CreateDomain from './components/Domain/CreateDomain'
 import DomainDetails from './components/Domain/DomainDetails'
+
 
 function Copyright() {
   return (
@@ -152,12 +152,12 @@ export default function App() {
           <Container maxWidth="lg" className="container">
             <Switch>
               <Route exact path="/" component={Dashboard} />
-              <Route exact path="/userList" component={UserList} />
               <Route exact path="/domainList" component={DomainList} />
               <Route exact path="/companyList" component={CompanyList} />
               <Route exact path="/offeringList" component={OfferingList} />
               <Route exact path="/detailsDomain" component={DomainDetails} />
               <Route exact path="/createDomain" component={CreateDomain} />
+              <Route exact path="/createComapny" component={CreateCompany} />
             </Switch>
 
             <Box pt={4}>

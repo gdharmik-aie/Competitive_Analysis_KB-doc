@@ -2,6 +2,7 @@
   "name": "myApp b6597432",
   "description": "",
   "tags": [
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     "neo4j-desktop-id-project-b6597432-db53-4c37-baef-7c8eadefd1d5"
 =======
@@ -9,6 +10,10 @@
     "neo4j-desktop-id-project-d7f8f8d1-29ee-4d07-a93e-f1aae9001e73",
     "neo4j-desktop-id-project-32ce1f36-553a-40ba-bb6c-6957d1df6371"
 >>>>>>> Stashed changes
+=======
+    "neo4j-desktop-id-project-b6597432-db53-4c37-baef-7c8eadefd1d5",
+    "neo4j-desktop-id-project-d7f8f8d1-29ee-4d07-a93e-f1aae9001e73"
+>>>>>>> v1.0.0
   ],
   "id": "ad7f5385-b70c-4db2-89bd-c7c9594820ef",
   "metadata": {},
