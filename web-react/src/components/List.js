@@ -11,8 +11,8 @@ import {
 } from '@mui/material'
 import { Link } from 'react-router-dom'
 import Heading from './Heading'
-
-
+import VerticalToggleButtons from './Toggle'
+import CardView from './CardView'
 
 function List({ data,
   title,
@@ -22,50 +22,70 @@ function List({ data,
   onUpdateClick,
 }) {
 
+  const [listView, setListView] = React.useState(true)
+
+  function buttonClick() {
+    setListView(!listView)
+  }
 
   return (
-    <Paper className="root">
-      <Heading title={title} linkName={linkName}></Heading>
-
-
+    <div>
+      <Paper className="root">
+        <Heading title={title} linkName={linkName}></Heading>
+      </Paper>
       {loading && !error && <p>Loading...</p>}
       {error && !loading && <p>Error {console.log(error)}</p>}
-      {
-        data && !loading && !error && (
-          <Table className="table">
-            <TableHead>
-              <TableRow>
-                <TableCell> Name</TableCell>
-                <TableCell >Description</TableCell>
-                <TableCell></TableCell>
+      {data && !loading && !error && (
+        <Paper className="root">
+          <div className="toggle-button">
+            <VerticalToggleButtons callBack={buttonClick}></VerticalToggleButtons>
+          </div>
 
-              </TableRow>
-            </TableHead>
-            <TableBody>
+          {listView ?
+
+            <Table className="table">
+              <TableHead>
+                <TableRow>
+                  <TableCell> Name</TableCell>
+                  <TableCell >Description</TableCell>
+                  <TableCell></TableCell>
+
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.map((n, i) => {
+                  return (
+                    <TableRow key={i}>
+                      <TableCell component="th" scope="row">
+                        <Link to={{ pathname: `/details${title}`, state: { name: n.name } }}  >
+                          {n.name}
+                        </Link>
+                      </TableCell>
+                      <TableCell>{n.description}</TableCell>
+                      <TableCell>
+                        <Button
+                          variant="outlined"
+                          onClick={() => onUpdateClick(n)}>update
+                        </Button>
+                      </TableCell>
+
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+
+
+            : <div className='card-container'>
               {data.map((n, i) => {
-                return (
-                  <TableRow key={i}>
-                    <TableCell component="th" scope="row">
-                      <Link to={{ pathname: `/details${title}`, state: { name: n.name } }}  >
-                        {n.name}
-                      </Link>
-                    </TableCell>
-                    <TableCell>{n.description}</TableCell>
-                    <TableCell>
-                      <Button
-                        variant="outlined"
-                        onClick={() => onUpdateClick(n)}>update
-                      </Button>
-                    </TableCell>
-
-                  </TableRow>
-                )
+                return (<CardView data={n} key={i}></CardView>)
               })}
-            </TableBody>
-          </Table>
-        )
+            </div>}
+
+        </Paper>)
       }
-    </Paper >
+    </div>
+
   )
 }
 

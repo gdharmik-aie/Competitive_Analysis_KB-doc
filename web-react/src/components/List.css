@@ -62,3 +62,21 @@
 .MuiButtonBase-root.formButton {
   margin: 0.5rem 0.3rem 0.5rem 0.3rem;
 }
+
+.toggle-button {
+  display: flex;
+  justify-content: right;
+  margin-right: 2rem;
+  margin-top: 1rem;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.MuiCard-root.cardView {
+  width: 30%;
+  margin: 1rem;
+}
