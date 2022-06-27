@@ -80,3 +80,7 @@
   width: 30%;
   margin: 1rem;
 }
+
+.cardlink {
+  text-decoration: none;
+}

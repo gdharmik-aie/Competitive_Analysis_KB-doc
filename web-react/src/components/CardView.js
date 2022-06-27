@@ -5,8 +5,8 @@ import CardHeader from '@mui/material/CardHeader';
 
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-
-import Avatar from '@mui/material/Avatar';
+/* import { Link } from 'react-router-dom'
+ */import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
@@ -28,7 +28,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
     }),
 })); */
 
-export default function CardView({ data }) {
+export default function CardView({ data, title }) {
     /* const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
@@ -37,6 +37,7 @@ export default function CardView({ data }) {
 
     return (
         <Card className='cardView' >
+            {/*  <Link className='cardlink' to={{ pathname: `/details${title}`, state: { name: data.name } }}  > */}
             <CardHeader
                 avatar={
                     <Avatar sx={{ bgcolor: red[500] }} aria-label={data.name}>
@@ -49,8 +50,9 @@ export default function CardView({ data }) {
                     </IconButton>
                 }
                 title={data.name}
+            >{title}</CardHeader>
+            {/*  </Link> */}
 
-            />
             {/*  <CardMedia
                 component="img"
                 height="194"
@@ -107,6 +109,6 @@ export default function CardView({ data }) {
                     </Typography>
                 </CardContent>
             </Collapse> */}
-        </Card>
+        </Card >
     );
 }

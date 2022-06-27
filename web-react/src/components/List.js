@@ -30,13 +30,12 @@ function List({ data,
 
   return (
     <div>
-      <Paper className="root">
-        <Heading title={title} linkName={linkName}></Heading>
-      </Paper>
+
       {loading && !error && <p>Loading...</p>}
       {error && !loading && <p>Error {console.log(error)}</p>}
       {data && !loading && !error && (
         <Paper className="root">
+          <Heading title={title} linkName={linkName}></Heading>
           <div className="toggle-button">
             <VerticalToggleButtons callBack={buttonClick}></VerticalToggleButtons>
           </div>
@@ -78,7 +77,7 @@ function List({ data,
 
             : <div className='card-container'>
               {data.map((n, i) => {
-                return (<CardView data={n} key={i}></CardView>)
+                return (<CardView data={n} title={title} key={i} ></CardView>)
               })}
             </div>}
 
