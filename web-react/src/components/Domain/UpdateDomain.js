@@ -112,7 +112,7 @@ export default function UpdateDomain({ open, setOpen, domainData }) {
                     <Box className="modalBox">
                         <Typography id="modal-modal-title" variant="h5" component="h2" >
                             <Title>
-                                Update
+                                Update Domain
                             </Title>
                         </Typography>
 

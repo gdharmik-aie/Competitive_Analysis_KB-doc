@@ -105,7 +105,7 @@ function CreateCompany() {
   }
 
   return (
-    <Paper className="root">
+    <Paper className="root" style={{ width: "50%" }}>
       <div className="title-container">
         <Title>Add Company</Title>
         <Link to="/companyList" className="navLink">
@@ -181,6 +181,7 @@ function CreateCompany() {
         </Typography>
         <Button
           onClick={onCreateCompany}
+          variant="contained"
           className="submitButton"
           type="submit"
         >
