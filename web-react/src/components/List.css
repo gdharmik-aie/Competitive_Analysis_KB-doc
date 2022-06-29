@@ -66,8 +66,9 @@
 .toggle-button {
   display: flex;
   justify-content: right;
-  margin-right: 2rem;
+  margin-right: 0.6rem;
   margin-top: 1rem;
+  height: 30px;
 }
 
 .card-container {

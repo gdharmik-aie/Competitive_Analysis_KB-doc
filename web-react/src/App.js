@@ -34,6 +34,7 @@ import Dashboard from './components/Dashboard'
 import CreateCompany from './components/Company/CreateCompany'
 import CreateDomain from './components/Domain/CreateDomain'
 import DomainDetails from './components/Domain/DomainDetails'
+import CompanyDetails from './components/Company/CompanyDetails'
 
 
 function Copyright() {
@@ -157,7 +158,8 @@ export default function App() {
               <Route exact path="/offeringList" component={OfferingList} />
               <Route exact path="/detailsDomain" component={DomainDetails} />
               <Route exact path="/createDomain" component={CreateDomain} />
-              <Route exact path="/createComapny" component={CreateCompany} />
+              <Route exact path="/createCompany" component={CreateCompany} />
+              <Route exact path="/detailsCompany" component={CompanyDetails} />
             </Switch>
 
             <Box pt={4}>

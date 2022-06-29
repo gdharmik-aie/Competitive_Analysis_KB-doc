@@ -17,6 +17,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Heading from '../Heading'
 import UpdateDomain from './UpdateDomain'
+/* import CardView from '../CardView' */
 
 const GET_DOMAIN = gql`
   query domainsPaginateQuery($where: DomainWhere) {
@@ -70,7 +71,7 @@ function a11yProps(index) {
 
 function DomainDetails() {
   const location = useLocation()
-  const { name } = location.state
+  const { id } = location.state
 
   const [value, setValue] = React.useState(0);
 
@@ -82,9 +83,9 @@ function DomainDetails() {
   const [domainData, setDomainData] = React.useState("")
 
   const { loading, data, error } = useQuery(GET_DOMAIN, {
-    variables: { where: { name: name } },
+    variables: { where: { id: id } },
   })
-  //console.log(data.domains[0].parentDomains)
+
 
 
   const onUpdateClick = (n) => {
@@ -101,25 +102,36 @@ function DomainDetails() {
       {error && !loading && <p>Error {console.log(error)}</p>}
       {data && !loading && !error && (
         <div>
+
+
           {data.domains.map((n, i) => {
             return (
               <div key={i}>
                 <Paper className="root domainDeatils" >
+                  <Heading title="Domain Details" linkName="Domain List"></Heading>
                   <Card className='cardDetail'>
-                    <Heading title="Domain Details" linkName="Domain List"></Heading>
                     <React.Fragment>
-                      <CardContent>
-                        <Typography variant="h5" component="div">
+                      <CardContent className='cardContent'>
+                        <Typography variant="body1" component="header" className='cardHeader'>
                           Name: {n.name}
                         </Typography>
-                        <Typography variant="body1">
+                        <Typography variant="body1" component="desc">
                           Description: {n.description}
                         </Typography>
+
                       </CardContent>
                       <CardActions>
+                        <Typography variant="body1" component="desc">
+                          Parent Domains: {data.domains[i].parentDomains.length}
+                        </Typography>
+                        <Typography variant="body1" component="desc">
+                          Child Domains: {data.domains[i].childDomains.length}
+                        </Typography>
+
                       </CardActions>
                     </React.Fragment>
                   </Card>
+                  {/*  <CardView data={n}></CardView> */}
                 </Paper>
 
 
