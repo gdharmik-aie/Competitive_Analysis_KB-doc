@@ -1,0 +1,34 @@
+.root {
+    margin-top: 13px;
+    overflow-x: none;
+    padding: 16px;
+  }
+  
+  .navLink {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .MuiInputLabel-root.inputLable {
+    display: inline-block;
+    padding: 10px;
+    margin: 5px;
+    color: black;
+  }
+  
+  .MuiTextField-root.textField {
+    padding: 0 5px 0 5px;
+  }
+  
+  .MuiCard-root.cardDetail {
+    box-shadow: none;
+  }
+  
+  .MuiBox-root.tabPanel {
+    padding: 0;
+  }
+  
+  .MuiPaper-root.offeringDeatils {
+    margin-top: 3px;
+  }
+  

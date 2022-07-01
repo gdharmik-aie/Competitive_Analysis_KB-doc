@@ -1,0 +1,30 @@
+.MuiFormControl-root.TextField {
+    margin: 0.5rem 0;
+    width: 650px;
+  }
+  
+  .labelField {
+    color: red;
+    margin: 0.5rem;
+  }
+  
+  
+  .textfield-container {
+    display: flex;
+  }
+  
+  .button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  
+  .MuiButtonBase-root.formButton {
+    margin: 0.5rem 0.3rem 0.5rem 0.3rem;
+  }
+  
+  .formSelect {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+  

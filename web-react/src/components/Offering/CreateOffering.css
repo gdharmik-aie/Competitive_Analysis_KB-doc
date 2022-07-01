@@ -1,0 +1,17 @@
+.createOffering {
+    width: 50%;
+  }
+  
+  .hidden-message {
+    display: none;
+  }
+  
+  .Success-message {
+    display: block;
+    color: green;
+  }
+  
+  .MuiButtonBase-root.submitButton {
+    margin: 0.3rem;
+  }
+  
