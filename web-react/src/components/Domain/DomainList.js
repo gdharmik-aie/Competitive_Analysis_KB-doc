@@ -25,10 +25,6 @@ const GET_DOMAIN = gql`
   }
 `
 
-
-
-
-
 function DomainList() {
   /*
   const [page] = React.useState(0)
@@ -37,19 +33,13 @@ n */
   const [open, setOpen] = React.useState(false);
   const [domainData, setDomainData] = React.useState("")
 
-
-
   const { loading, data, error } = useQuery(GET_DOMAIN)
-
-
-
 
   const onUpdateClick = (n) => {
     //console.log("here:", n)
     setDomainData(n)
     setOpen(true)
   }
-
 
   if (loading) return "Loading...";
   if (error) return <pre>{error.message}</pre>

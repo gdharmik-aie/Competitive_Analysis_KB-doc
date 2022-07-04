@@ -27,14 +27,6 @@
   padding: 0;
 }
 
-.MuiPaper-root.domainDeatils {
+.MuiPaper-root.offeringDeatils {
   margin-top: 3px;
-}
-
-.MuiCardContent-root.cardContent {
-  padding: 8px;
-}
-
-.MuiTypography-root.cardHeader {
-  margin: 0 0 10px 0;
 }

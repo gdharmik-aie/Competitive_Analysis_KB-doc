@@ -4,6 +4,9 @@ import './App.css'
 import DomainList from './components/Domain/DomainList'
 import CompanyList from './components/Company/CompanyList'
 import OfferingList from './components/Offering/OfferingList'
+import OfferingDetails from './components/Offering/OfferingDetails'
+import CreateOffering from './components/Offering/CreateOffering'
+import UpdateOffering from './components/Offering/UpdateOffering'
 
 import clsx from 'clsx'
 
@@ -36,7 +39,6 @@ import CreateDomain from './components/Domain/CreateDomain'
 import DomainDetails from './components/Domain/DomainDetails'
 import CompanyDetails from './components/Company/CompanyDetails'
 
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -50,11 +52,7 @@ function Copyright() {
   )
 }
 
-
-
-
 export default function App() {
-
   const [open, setOpen] = React.useState(true)
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -69,7 +67,7 @@ export default function App() {
         <CssBaseline />
         <AppBar
           position="absolute"
-          className={!open ? "appBar" : "appBarShift"}
+          className={!open ? 'appBar' : 'appBarShift'}
         >
           <Toolbar className="toolbar">
             <IconButton
@@ -77,8 +75,7 @@ export default function App() {
               color="inherit"
               aria-label="open drawer"
               onClick={handleDrawerOpen}
-              className={!open ? "menuButtonHidden"
-                : "menuButton"}
+              className={!open ? 'menuButtonHidden' : 'menuButton'}
             >
               <MenuIcon />
             </IconButton>
@@ -101,7 +98,7 @@ export default function App() {
         <Drawer
           variant="permanent"
           classes={{
-            "paper": clsx("drawerPaper", !open && "drawerPaperClose"),
+            paper: clsx('drawerPaper', !open && 'drawerPaperClose'),
           }}
           open={open}
         >
@@ -148,7 +145,7 @@ export default function App() {
           </List>
           <Divider />
         </Drawer>
-        <main className={open ? "contentShrink" : "content"}>
+        <main className={open ? 'contentShrink' : 'content'}>
           <div className="appBarSpacer" />
           <Container maxWidth="lg" className="container">
             <Switch>
@@ -156,6 +153,13 @@ export default function App() {
               <Route exact path="/domainList" component={DomainList} />
               <Route exact path="/companyList" component={CompanyList} />
               <Route exact path="/offeringList" component={OfferingList} />
+              <Route
+                exact
+                path="/detailsOffering"
+                component={OfferingDetails}
+              />
+              <Route exact path="/createOffering" component={CreateOffering} />
+              <Route exact path="/updateOffering" component={UpdateOffering} />
               <Route exact path="/detailsDomain" component={DomainDetails} />
               <Route exact path="/createDomain" component={CreateDomain} />
               <Route exact path="/createCompany" component={CreateCompany} />
