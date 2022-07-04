@@ -14,6 +14,8 @@ import {
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Heading from '../Heading'
+import UpdateDomain from '../Domain/UpdateDomain'
+import UpdateOffering from '../Offering/UpdateOffering'
 import UpdateCompany from './UpdateCompany'
 
 const GET_COMPANY = gql`
@@ -84,13 +86,26 @@ function CompanyDetails() {
     };
 
     const [open, setOpen] = React.useState(false)
+    const [domainData, setDoaminData] = React.useState("")
+    const [offeringData, setOferingData] = React.useState("")
     const [companyData, setCompanyData] = React.useState("")
 
     const { loading, data, error } = useQuery(GET_COMPANY, {
         variables: { where: { id: id } }
     })
 
-    const onUpdateClick = (n) => {
+    const onUpdateDomainClick = (n) => {
+        // console.log("here:", n)
+        setDoaminData(n)
+        setOpen(true)
+    }
+
+    const onUpdateOfferingClick = (n) => {
+        // console.log("here:", n)
+        setOferingData(n)
+        setOpen(true)
+    }
+    const onUpdateCompanyClick = (n) => {
         // console.log("here:", n)
         setCompanyData(n)
         setOpen(true)
@@ -148,7 +163,7 @@ function CompanyDetails() {
                                                 linkName="Create Company"
                                                 loading={loading}
                                                 error={error}
-                                                onUpdateClick={onUpdateClick}
+                                                onUpdateClick={onUpdateDomainClick}
                                             />
 
                                         </TabPanel>
@@ -159,7 +174,7 @@ function CompanyDetails() {
                                                 linkName="Create Company"
                                                 loading={loading}
                                                 error={error}
-                                                onUpdateClick={onUpdateClick}
+                                                onUpdateClick={onUpdateOfferingClick}
                                             />
                                         </TabPanel>
                                         <TabPanel value={value} index={2}>
@@ -169,10 +184,22 @@ function CompanyDetails() {
                                                 linkName="Create Company"
                                                 loading={loading}
                                                 error={error}
-                                                onUpdateClick={onUpdateClick}
+                                                onUpdateClick={onUpdateCompanyClick}
                                             />
                                         </TabPanel>
                                     </Box>
+                                    {domainData ? <UpdateDomain
+                                        open={open}
+                                        setOpen={setOpen}
+                                        domainData={domainData}
+                                    >
+                                    </UpdateDomain> : ""}
+                                    {offeringData ? <UpdateOffering
+                                        open={open}
+                                        setOpen={setOpen}
+                                        offeringData={offeringData}
+                                    >
+                                    </UpdateOffering> : ""}
                                     {companyData ? <UpdateCompany
                                         open={open}
                                         setOpen={setOpen}

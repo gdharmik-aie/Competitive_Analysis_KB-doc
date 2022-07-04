@@ -16,7 +16,7 @@ import Tab from '@mui/material/Tab';
 import Heading from '../Heading'
 /* import UpdateOffering from './UpdateOffering' */
 import UpdateDomain from '../Domain/UpdateDomain'
-/* import UpdateCompany from '../Company/UpdateCompany' */
+import UpdateCompany from '../Company/UpdateCompany'
 
 const GET_OFFERING = gql`
   query offeringsPaginateQuery($where: OfferingWhere) {
@@ -76,8 +76,8 @@ function OfferingDetails() {
 
   const [open, setOpen] = React.useState(false);
   /* const [offeringData, setOfferingData] = React.useState("") */
-  const [primaryDomainData, setrimaryDomainData] = React.useState("")
-  const [comapnyData, setComapnyData] = React.useState("")
+  const [primaryDomainData, setrimaryDomainData] = React.useState()
+  const [companyData, setCompanyData] = React.useState("")
 
   const { loading, data, error } = useQuery(GET_OFFERING, {
     variables: { where: { id: id } },
@@ -88,9 +88,10 @@ function OfferingDetails() {
     setOpen(true)
   }
 
-  const onUpdateOfferingClick = (n) => {
-    setComapnyData(n)
-    console.log(comapnyData)
+  const onUpdateComapnyClick = (n) => {
+    console.log(n)
+    setCompanyData(n)
+
     setOpen(true)
   }
 
@@ -151,8 +152,9 @@ function OfferingDetails() {
                         linkName="Create Offering"
                         loading={loading}
                         error={error}
-                        onUpdateClick={onUpdateOfferingClick}
+                        onUpdateClick={onUpdateComapnyClick}
                       />
+
                     </TabPanel>
 
                   </Box>
@@ -160,6 +162,12 @@ function OfferingDetails() {
                     open={open}
                     setOpen={setOpen}
                     domainData={primaryDomainData}
+                  /> : ""}
+
+                  {companyData ? <UpdateCompany
+                    open={open}
+                    setOpen={setOpen}
+                    companyData={companyData}
                   /> : ""}
                 </Paper>
 
