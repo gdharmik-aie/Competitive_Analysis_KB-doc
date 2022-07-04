@@ -1,37 +1,42 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
+import './OfferingDetails.css'
 import List from '../List'
+import UpdateOffering from './UpdateOffering'
+
 
 const GET_Offering = gql`
 query offeringPaginationQuery{
- offerings {
+   offerings {
     id
     name
     description
     version
+    primaryDomain {
+      id
+      name
+      description
+    }
+    provider {
+      id
+      name
+      description
+    }
   }
 }
 `
 
 function OfferingList() {
 
-    const [offeringId, setOfferingId] = React.useState('')
-    const [offeringName, setOfferingName] = React.useState('')
-    const [offeringDescription, setOfferingDescription] = React.useState('')
-    const [offeringVersion, setOfferingVersion] = React.useState('')
+    const [open, setOpen] = React.useState(false);
+    const [offeringData, setOfferingData] = React.useState('')
 
     const { loading, data, error } = useQuery(GET_Offering)
 
     const onUpdateClick = (n) => {
         // console.log("here:", n)
-        setOfferingId(n.id)
-        setOfferingName(n.name)
-        setOfferingDescription(n.description)
-        setOfferingVersion(n.version)
-        console.log(offeringId)
-        console.log(offeringName)
-        console.log(offeringDescription)
-        console.log(offeringVersion)
+        setOfferingData(n)
+        setOpen(true)
     }
 
     if (loading) return "Loading...";
@@ -41,13 +46,19 @@ function OfferingList() {
 
             <List
                 data={data.offerings}
-                title="Offerings"
+                title="Offering"
                 linkName="Create Offering"
                 loading={loading}
                 error={error}
                 onUpdateClick={onUpdateClick}
-
             />
+
+            {offeringData ? <UpdateOffering
+                open={open}
+                setOpen={setOpen}
+                offeringData={offeringData}
+            >
+            </UpdateOffering> : ""}
         </div>
     )
 }

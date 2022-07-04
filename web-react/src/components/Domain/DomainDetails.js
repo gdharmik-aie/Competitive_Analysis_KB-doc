@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { useLocation } from 'react-router-dom'
-
 import { useQuery, gql } from '@apollo/client'
 import './DomainDetails.css'
 import List from '../List'
@@ -20,8 +18,7 @@ import UpdateDomain from './UpdateDomain'
 
 const GET_DOMAIN = gql`
   query domainsPaginateQuery($where: DomainWhere) {
-    domains(where: $where)
-      {
+    domains(where: $where){
     id
     name
     description
@@ -70,7 +67,7 @@ function a11yProps(index) {
 
 function DomainDetails() {
   const location = useLocation()
-  const { name } = location.state
+  const { id } = location.state
 
   const [value, setValue] = React.useState(0);
 
@@ -82,7 +79,7 @@ function DomainDetails() {
   const [domainData, setDomainData] = React.useState("")
 
   const { loading, data, error } = useQuery(GET_DOMAIN, {
-    variables: { where: { name: name } },
+    variables: { where: { id: id } },
   })
   //console.log(data.domains[0].parentDomains)
 

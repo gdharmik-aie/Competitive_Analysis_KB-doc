@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { gql, useMutation } from '@apollo/client'
 import './OfferingList.css'
 
-import { TextField, Button, Typography, Modal, Paper } from '@mui/material'
+import { TextField, Button, Box, Typography, Modal, Paper } from '@mui/material'
 import Title from '../Title'
 
 const UPDATE_OFFERING = gql`
@@ -122,63 +122,65 @@ export default function UpdateOffering({ open, setOpen, offeringData }) {
         aria-describedby="modal-modal-description"
       >
         <Paper>
-          <Typography id="modal-modal--title" variant="h5" component="h2">
-            <Title>Update</Title>
-          </Typography>
+          <Box className="modalBox">
+            <Typography id="modal-modal--title" variant="h5" component="h2">
+              <Title>Update</Title>
+            </Typography>
 
-          <form onSubmit={handlerSubmit}>
-            <TextField
-              className="TextField"
-              required
-              id="outline-required"
-              label="Offering Name"
-              defaultValue={offeringName}
-              onChange={onOfferingNameChange}
-            ></TextField>
-            <TextField
-              className="TextField"
-              required
-              id="outlined-required"
-              label="Offering Description"
-              defaultValue={offeringDescription}
-              onChange={onOfferingDescChange}
-            ></TextField>
-            <TextField
-              className="TextField"
-              required
-              id="outlined-required"
-              label="Offering Description"
-              defaultValue={offeringVersion}
-              onChange={onOfferingVersionChange}
-            ></TextField>
-            <TextField
-              className="TextField"
-              required
-              id="outlined-required"
-              label="Offering Description"
-              defaultValue={offeringProvider}
-              onChange={onOfferingProviderChange}
-            ></TextField>
+            <form onSubmit={handlerSubmit}>
+              <TextField
+                className="TextField"
+                required
+                id="outline-required"
+                label="Offering Name"
+                defaultValue={offeringName}
+                onChange={onOfferingNameChange}
+              ></TextField>
+              <TextField
+                className="TextField"
+                required
+                id="outlined-required"
+                label="Offering Description"
+                defaultValue={offeringDescription}
+                onChange={onOfferingDescChange}
+              ></TextField>
+              <TextField
+                className="TextField"
+                required
+                id="outlined-required"
+                label="Offering Description"
+                defaultValue={offeringVersion}
+                onChange={onOfferingVersionChange}
+              ></TextField>
+              <TextField
+                className="TextField"
+                required
+                id="outlined-required"
+                label="Offering Description"
+                defaultValue={offeringProvider}
+                onChange={onOfferingProviderChange}
+              ></TextField>
 
-            <div className="button-container">
-              <Button
-                className="formButton"
-                color="primary"
-                variant="contained"
-                onClick={() => onDeleteOffering()}
-              >
-                Delete
-              </Button>
-              <Button
-                className="formButton"
-                color="primary"
-                variant="contained"
-                type="submit"
-              >
-                Submit
-              </Button>
-            </div>
-          </form>
+              <div className="button-container">
+                <Button
+                  className="formButton"
+                  color="primary"
+                  variant="contained"
+                  onClick={() => onDeleteOffering()}
+                >
+                  Delete
+                </Button>
+                <Button
+                  className="formButton"
+                  color="primary"
+                  variant="contained"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </div>
+            </form>
+          </Box>
         </Paper>
       </Modal>
     </div>

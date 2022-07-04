@@ -56,7 +56,7 @@ function List({ data,
                   return (
                     <TableRow key={i}>
                       <TableCell component="th" scope="row">
-                        <Link to={{ pathname: `/details${title}`, state: { name: n.name } }}  >
+                        <Link to={{ pathname: `/details${title}`, state: { id: n.id } }}  >
                           {n.name}
                         </Link>
                       </TableCell>
