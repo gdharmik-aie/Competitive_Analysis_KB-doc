@@ -21,7 +21,7 @@
   margin-bottom: 0;
 }
 
-.css-jz7rmq-MuiPaper-root-MuiAppBar-root.appBarShift {
+.MuiAppBar-root.appBarShift {
   margin-left: 240px;
   width: calc(100% - 240px);
   transition: ease;

@@ -144,7 +144,7 @@ function CompanyDetails() {
                                         <TabPanel value={value} index={0}>
                                             <List
                                                 data={data.companies[i].primaryDomain}
-                                                title="Primary Domain"
+                                                title="Domain"
                                                 linkName="Create Company"
                                                 loading={loading}
                                                 error={error}
@@ -155,7 +155,7 @@ function CompanyDetails() {
                                         <TabPanel value={value} index={1}>
                                             <List
                                                 data={data.companies[i].offeringsUsed}
-                                                title="Offerings Used"
+                                                title="Offering"
                                                 linkName="Create Company"
                                                 loading={loading}
                                                 error={error}
@@ -165,7 +165,7 @@ function CompanyDetails() {
                                         <TabPanel value={value} index={2}>
                                             <List
                                                 data={data.companies[i].offeringsProvided}
-                                                title="Offerings Provide"
+                                                title="Company"
                                                 linkName="Create Company"
                                                 loading={loading}
                                                 error={error}
