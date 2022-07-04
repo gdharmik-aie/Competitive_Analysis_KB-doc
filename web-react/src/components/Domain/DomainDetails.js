@@ -69,15 +69,16 @@ function a11yProps(index) {
 function DomainDetails() {
   const location = useLocation()
   const { id } = location.state
-
+  const [domainData, setDomainData] = React.useState("")
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    setDomainData("")
   };
 
   const [open, setOpen] = React.useState(false);
-  const [domainData, setDomainData] = React.useState("")
+
 
   const { loading, data, error } = useQuery(GET_DOMAIN, {
     variables: { where: { id: id } },

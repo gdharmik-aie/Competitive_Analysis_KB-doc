@@ -69,15 +69,18 @@ function a11yProps(index) {
 function OfferingDetails() {
   const location = useLocation()
   const { id } = location.state
+  const [primaryDomainData, setrimaryDomainData] = React.useState()
+  const [companyData, setCompanyData] = React.useState("")
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    setrimaryDomainData("")
+    setCompanyData("")
   };
 
   const [open, setOpen] = React.useState(false);
   /* const [offeringData, setOfferingData] = React.useState("") */
-  const [primaryDomainData, setrimaryDomainData] = React.useState()
-  const [companyData, setCompanyData] = React.useState("")
+
 
   const { loading, data, error } = useQuery(GET_OFFERING, {
     variables: { where: { id: id } },

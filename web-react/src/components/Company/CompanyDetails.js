@@ -78,17 +78,21 @@ function a11yProps(index) {
 function CompanyDetails() {
     const location = useLocation()
     const { id } = location.state
+    const [domainData, setDoaminData] = React.useState("")
+    const [offeringData, setOferingData] = React.useState("")
+    const [companyData, setCompanyData] = React.useState("")
+
 
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        setDoaminData("")
+        setOferingData("")
+        setCompanyData("")
     };
 
     const [open, setOpen] = React.useState(false)
-    const [domainData, setDoaminData] = React.useState("")
-    const [offeringData, setOferingData] = React.useState("")
-    const [companyData, setCompanyData] = React.useState("")
 
     const { loading, data, error } = useQuery(GET_COMPANY, {
         variables: { where: { id: id } }
