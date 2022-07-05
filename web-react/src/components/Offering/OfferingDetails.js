@@ -108,21 +108,29 @@ function OfferingDetails() {
             return (
               <div key={i}>
                 <Paper className="root offeringDetails">
+                  <Heading
+                    title="Offering Details"
+                    linkName="Offering List"
+                  ></Heading>
                   <Card className="cardDetail">
-                    <Heading
-                      title="Offering Details"
-                      linkName="Offering List"
-                    ></Heading>
                     <React.Fragment>
-                      <CardContent>
-                        <Typography variant="h5" component="div">
+                      <CardContent className='cardContent'>
+                        <Typography variant="body1" component="header" className='cardHeader'>
                           Name: {n.name}
                         </Typography>
-                        <Typography variant="body1">
+                        <Typography variant="body1" component="desc">
                           Description: {n.description}
                         </Typography>
                       </CardContent>
-                      <CardActions></CardActions>
+                      <CardActions>
+                        <Typography variant="body1" component="desc">
+                          Primary Domain: {data.offerings[i].primaryDomain.length}
+                        </Typography>
+                        <Typography variant="body1" component="desc">
+                          Provider Company: {data.offerings[i].provider.length}
+                        </Typography>
+
+                      </CardActions>
                     </React.Fragment>
                   </Card>
                 </Paper>

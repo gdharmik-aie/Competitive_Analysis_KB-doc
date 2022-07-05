@@ -1,6 +1,13 @@
 import React from 'react'
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import './App.css'
+import DomainIcon from '@mui/icons-material/Domain';
+import DomainAddIcon from '@mui/icons-material/DomainAdd';
+import StoreIcon from '@mui/icons-material/Store';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import AddTaskIcon from '@mui/icons-material/AddTask';
+/* import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'; */
 import DomainList from './components/Domain/DomainList'
 import CompanyList from './components/Company/CompanyList'
 import OfferingList from './components/Offering/OfferingList'
@@ -31,7 +38,7 @@ import {
   ChevronLeft as ChevronLeftIcon,
   Menu as MenuIcon,
   Dashboard as DashboardIcon,
-  People as PeopleIcon,
+
 } from '@mui/icons-material'
 import Dashboard from './components/Dashboard'
 import CreateCompany from './components/Company/CreateCompany'
@@ -121,27 +128,59 @@ export default function App() {
             <Link to="/domainList" className="navLink">
               <ListItem button>
                 <ListItemIcon>
-                  <PeopleIcon />
+                  <DomainIcon />
                 </ListItemIcon>
                 <ListItemText primary="Domain" />
               </ListItem>
             </Link>
+
+            <List className='unOrderedList'>
+              <Link to="/createDomain" className="navLink">
+                <ListItem button>
+                  <ListItemIcon>
+                    <DomainAddIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Create Domain" />
+                </ListItem>
+              </Link>
+            </List>
+
             <Link to="/companyList" className="navLink">
               <ListItem button>
                 <ListItemIcon>
-                  <PeopleIcon />
+                  <StoreIcon />
                 </ListItemIcon>
                 <ListItemText primary="Company" />
               </ListItem>
             </Link>
+            <List className='unOrderedList'>
+              <Link to="/createCompany" className="navLink">
+                <ListItem button>
+                  <ListItemIcon>
+                    <AddBusinessIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Create Company" />
+                </ListItem>
+              </Link>
+            </List>
             <Link to="/offeringList" className="navLink">
               <ListItem button>
                 <ListItemIcon>
-                  <PeopleIcon />
+                  <TaskAltIcon />
                 </ListItemIcon>
                 <ListItemText primary="Offering" />
               </ListItem>
             </Link>
+            <List className='unOrderedList'>
+              <Link to="/createOffering" className="navLink">
+                <ListItem button>
+                  <ListItemIcon>
+                    <AddTaskIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Create Offering" />
+                </ListItem>
+              </Link>
+            </List>
           </List>
           <Divider />
         </Drawer>

@@ -2,20 +2,22 @@ import * as React from 'react';
 
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-/* import { Link } from 'react-router-dom'
- */import Avatar from '@mui/material/Avatar';
+import { Link } from 'react-router-dom'
+import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
+import { Button } from '@mui/material'
+/* import { blue } from '@mui/material/colors'; */
+/* import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share'; */
 import './List.css'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-
+const ITEM_HEIGHT = 48;
 
 /* const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -28,27 +30,73 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
     }),
 })); */
 
-export default function CardView({ data, title }) {
+export default function CardView({ data, title, onUpdateClick }) {
     /* const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     }; */
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     return (
         <Card className='cardView' >
             {/*  <Link className='cardlink' to={{ pathname: `/details${title}`, state: { name: data.name } }}  > */}
             <CardHeader
                 avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label={data.name}>
+                    <Avatar sx={{ bgcolor: "#1976d2" }} aria-label={data.name}>
                         {data.name[0]}
                     </Avatar>
                 }
                 action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
-                }
+                    <div>
+                        <IconButton
+                            aria-label="more"
+                            id="long-button"
+                            aria-controls={open ? 'long-menu' : undefined}
+                            aria-expanded={open ? 'true' : undefined}
+                            aria-haspopup="true"
+                            onClick={handleClick} >
+                            <MoreVertIcon />
+                        </IconButton>
+                        <Menu
+                            id="long-menu"
+                            MenuListProps={{
+                                'aria-labelledby': 'long-button',
+                            }}
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            PaperProps={{
+                                style: {
+                                    maxHeight: ITEM_HEIGHT * 4.5,
+                                    width: '15ch',
+                                },
+                            }}
+                        >
+                            <Link to={{ pathname: `/details${title}`, state: { id: data.id } }} className="cardLink" >
+                                <MenuItem >
+                                    <Button
+                                        variant="text">
+                                        Details
+                                    </Button>
+                                </MenuItem>
+                            </Link>
+                            <MenuItem >
+                                <Button
+                                    variant="text"
+                                    onClick={() => onUpdateClick(data)}>update
+                                </Button>
+                            </MenuItem>
+                        </Menu>
+                    </div>}
                 title={data.name}
             >{title}</CardHeader>
             {/*  </Link> */}
@@ -65,12 +113,12 @@ export default function CardView({ data, title }) {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
+                {/*  <IconButton aria-label="add to favorites">
                     <FavoriteIcon />
                 </IconButton>
                 <IconButton aria-label="share">
                     <ShareIcon />
-                </IconButton>
+                </IconButton> */}
                 {/*  <ExpandMore
                     expand={expanded}
                     onClick={handleExpandClick}

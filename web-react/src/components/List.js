@@ -78,7 +78,7 @@ function List({ data,
 
             : <div className='card-container'>
               {data.map((n, i) => {
-                return (<CardView data={n} title={title} key={i} ></CardView>)
+                return (<CardView data={n} title={title} key={i} onUpdateClick={onUpdateClick} ></CardView>)
               })}
             </div>}
 

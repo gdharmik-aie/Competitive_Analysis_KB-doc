@@ -2,6 +2,10 @@
   padding-right: 24px;
 }
 
+.MuiList-root.unOrderedList {
+  padding-left: 10px;
+}
+
 .toolbarIcon {
   display: flex;
   align-items: center;
@@ -82,4 +86,8 @@ title {
 .appBarImage {
   max-height: 75px;
   padding-right: 20px;
+}
+
+.cardLink {
+  text-decoration: none;
 }
