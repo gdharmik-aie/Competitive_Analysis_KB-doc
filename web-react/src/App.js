@@ -14,7 +14,7 @@ import OfferingList from './components/Offering/OfferingList'
 import OfferingDetails from './components/Offering/OfferingDetails'
 import CreateOffering from './components/Offering/CreateOffering'
 import UpdateOffering from './components/Offering/UpdateOffering'
-
+import Connections from './components/Connections';
 import clsx from 'clsx'
 
 import {
@@ -34,6 +34,7 @@ import {
   ListItemIcon,
 } from '@mui/material'
 import { Link } from 'react-router-dom'
+import LinkIcon from '@mui/icons-material/Link';
 import {
   ChevronLeft as ChevronLeftIcon,
   Menu as MenuIcon,
@@ -61,6 +62,7 @@ function Copyright() {
 
 export default function App() {
   const [open, setOpen] = React.useState(true)
+
   const handleDrawerOpen = () => {
     setOpen(true)
   }
@@ -181,6 +183,14 @@ export default function App() {
                 </ListItem>
               </Link>
             </List>
+            <Link to="/connections" className="navLink">
+              <ListItem button>
+                <ListItemIcon>
+                  <LinkIcon />
+                </ListItemIcon>
+                <ListItemText primary="Connections" />
+              </ListItem>
+            </Link>
           </List>
           <Divider />
         </Drawer>
@@ -192,17 +202,14 @@ export default function App() {
               <Route exact path="/domainList" component={DomainList} />
               <Route exact path="/companyList" component={CompanyList} />
               <Route exact path="/offeringList" component={OfferingList} />
-              <Route
-                exact
-                path="/detailsOffering"
-                component={OfferingDetails}
-              />
+              <Route exact path="/detailsOffering" component={OfferingDetails} />
               <Route exact path="/createOffering" component={CreateOffering} />
               <Route exact path="/updateOffering" component={UpdateOffering} />
               <Route exact path="/detailsDomain" component={DomainDetails} />
               <Route exact path="/createDomain" component={CreateDomain} />
               <Route exact path="/createCompany" component={CreateCompany} />
               <Route exact path="/detailsCompany" component={CompanyDetails} />
+              <Route exact path="/connections" component={Connections} />
             </Switch>
 
             <Box pt={4}>

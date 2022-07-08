@@ -8,8 +8,16 @@ import {
     Box,
     Typography,
     Modal,
-    Paper
+    Paper,
+    List,
+    ListItemButton
 } from '@mui/material'
+import { ListItem, ListItemText } from "@mui/material";
+import Collapse from "@mui/material/Collapse";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+
+import Checkbox from "@mui/material/Checkbox";
 import Title from '../Title'
 
 const UPDATE_COMPANY = gql`
@@ -47,6 +55,12 @@ function UpdateCompany({ open, setOpen, companyData }) {
     const [companyCity, setCompanyCity] = React.useState('')
     const [companyRegion, setCompanyRegion] = React.useState('')
     const [companyCountry, setCompanyCountry] = React.useState('')
+
+    const [collapseOpen, setcollapseOpen] = React.useState(true);
+
+    const onCallapseClick = () => {
+        setcollapseOpen(!collapseOpen);
+    };
 
 
     useEffect(() => {
@@ -208,6 +222,20 @@ function UpdateCompany({ open, setOpen, companyData }) {
                                 defaultValue={companyCountry}
                                 onChange={onCompanyCountryChange}
                             ></TextField>
+                            <List>
+                                <ListItemButton onClick={onCallapseClick}>
+                                    <ListItemText primary="Primary Domain" />
+                                    {collapseOpen ? <ExpandLess /> : <ExpandMore />}
+                                </ListItemButton>
+                                <Collapse in={collapseOpen} timeout="auto" unmountOnExit>
+                                    <List component="div" disablePadding>
+                                        <ListItem sx={{ pl: 4 }}>
+                                            <ListItemText primary="Retail" />
+                                            <Checkbox />
+                                        </ListItem>
+                                    </List>
+                                </Collapse>
+                            </List>
                             <div className="button-container">
                                 <Button
                                     className="formButton"

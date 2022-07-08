@@ -91,3 +91,9 @@ title {
 .cardLink {
   text-decoration: none;
 }
+
+.container{
+  display: flex;
+}
+
+
