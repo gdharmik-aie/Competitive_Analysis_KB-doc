@@ -78,7 +78,7 @@ function a11yProps(index) {
 function CompanyDetails() {
     const location = useLocation()
     const { id } = location.state
-    const [domainData, setDoaminData] = React.useState("")
+    const [updateDomainData, setUpdateDomainData] = React.useState("")
     const [offeringData, setOferingData] = React.useState("")
     const [companyData, setCompanyData] = React.useState("")
 
@@ -87,7 +87,7 @@ function CompanyDetails() {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-        setDoaminData("")
+        setUpdateDomainData("")
         setOferingData("")
         setCompanyData("")
     };
@@ -100,7 +100,7 @@ function CompanyDetails() {
 
     const onUpdateDomainClick = (n) => {
         // console.log("here:", n)
-        setDoaminData(n)
+        setUpdateDomainData(n)
         setOpen(true)
     }
 
@@ -125,7 +125,7 @@ function CompanyDetails() {
                         return (
                             <div key={i}>
                                 <Paper className="root companyDetails" >
-                                    <Heading title="Company Details" linkName="Company List"></Heading>
+                                    <Heading title="Company Details" listType="list" linkName="Company List"></Heading>
                                     <Card className='cardDetail'>
                                         <React.Fragment>
                                             <CardContent className='cardContent'>
@@ -192,10 +192,10 @@ function CompanyDetails() {
                                             />
                                         </TabPanel>
                                     </Box>
-                                    {domainData ? <UpdateDomain
+                                    {updateDomainData ? <UpdateDomain
                                         open={open}
                                         setOpen={setOpen}
-                                        domainData={domainData}
+                                        updateDomainData={updateDomainData}
                                     >
                                     </UpdateDomain> : ""}
                                     {offeringData ? <UpdateOffering

@@ -17,9 +17,12 @@ import CardView from './CardView'
 function List({ data,
   title,
   linkName,
+  listType,
   loading,
   error,
   onUpdateClick,
+  onCreateClick,
+  onDeleteClick
 }) {
 
   const [listView, setListView] = React.useState(true)
@@ -35,7 +38,7 @@ function List({ data,
       {error && !loading && <p>Error {console.log(error)}</p>}
       {data && !loading && !error && (
         <Paper className="root">
-          <Heading title={title} linkName={linkName}></Heading>
+          <Heading title={title} linkName={linkName} listType={listType} onCreateClick={onCreateClick}></Heading>
           <div className="toggle-button">
             <VerticalToggleButtons callBack={buttonClick}></VerticalToggleButtons>
           </div>
@@ -48,7 +51,7 @@ function List({ data,
                   <TableCell> Name</TableCell>
                   <TableCell >Description</TableCell>
                   <TableCell></TableCell>
-
+                  <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -68,6 +71,13 @@ function List({ data,
                           onClick={() => onUpdateClick(n)}>update
                         </Button>
                       </TableCell>
+                      <TableCell>
+                        <Button
+                          className='deleteButton'
+                          variant="outlined"
+                          onClick={() => onDeleteClick(n)}>Delete
+                        </Button>
+                      </TableCell>
 
                     </TableRow>
                   )
@@ -78,7 +88,7 @@ function List({ data,
 
             : <div className='card-container'>
               {data.map((n, i) => {
-                return (<CardView data={n} title={title} key={i} onUpdateClick={onUpdateClick} ></CardView>)
+                return (<CardView data={n} title={title} key={i} onUpdateClick={onUpdateClick} onDeleteClick={onDeleteClick}></CardView>)
               })}
             </div>}
 

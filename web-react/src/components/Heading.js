@@ -10,18 +10,31 @@ function camelize(str) {
     }).replace(/\s+/g, '');
 }
 
-function Heading({ title, linkName }) {
+function Heading({ title, linkName, listType, onCreateClick }) {
     let camelCaseLinkName = camelize(linkName)
     return (
-        <div className='title-container'>
-            <Title>
-                {`${title}`}
-            </Title>
-            <Link to={`/${camelCaseLinkName}`} className="navLink"> <Button color="primary" variant="outlined" >
-                {linkName}
-            </Button></Link>
-        </div>
-    )
+        <>
+            {listType == "list" ?
+
+                <div div className='title-container' >
+                    <Title>
+                        {`${title}`}
+                    </Title>
+                    <Link to={`/${camelCaseLinkName}`} className="navLink"> <Button color="primary" variant="outlined" >
+                        {linkName}
+                    </Button></Link>
+                </div> :
+                <div div className='title-container' >
+                    <Title>
+                        {`${title}`}
+                    </Title>
+                    <Button
+                        variant="outlined"
+                        onClick={() => onCreateClick()}>{linkName}
+                    </Button>
+                </div>
+            }
+        </>)
 }
 
 export default Heading

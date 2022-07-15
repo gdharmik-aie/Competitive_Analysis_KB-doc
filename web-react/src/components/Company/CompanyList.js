@@ -22,43 +22,44 @@ const GET_COMPANY = gql`
 
 
 function CompanyList() {
-    const [open, setOpen] = React.useState(false)
-    const [companyData, setCompanyData] = React.useState("")
+  const [open, setOpen] = React.useState(false)
+  const [companyData, setCompanyData] = React.useState("")
 
 
 
-    const { loading, data, error } = useQuery(GET_COMPANY)
+  const { loading, data, error } = useQuery(GET_COMPANY)
 
 
-    const onUpdateClick = (n) => {
-        //console.log("here:", n)
-        setCompanyData(n)
-        setOpen(true)
-    }
+  const onUpdateClick = (n) => {
+    //console.log("here:", n)
+    setCompanyData(n)
+    setOpen(true)
+  }
 
 
 
-    if (loading) return "Loading...";
-    if (error) return <pre>{error.message}</pre>
-    return (
-        <div>
-            <List
-                data={data.companies}
-                title="Company"
-                linkName="Create Company"
-                loading={loading}
-                error={error}
-                onUpdateClick={onUpdateClick}
-            />
+  if (loading) return "Loading...";
+  if (error) return <pre>{error.message}</pre>
+  return (
+    <div>
+      <List
+        data={data.companies}
+        title="Company"
+        linkName="Create Company"
+        listType="list"
+        loading={loading}
+        error={error}
+        onUpdateClick={onUpdateClick}
+      />
 
-            {companyData ? <UpdateCompany
-                open={open}
-                setOpen={setOpen}
-                companyData={companyData}
-            >
-            </UpdateCompany> : ""}
-        </div>
-    )
+      {companyData ? <UpdateCompany
+        open={open}
+        setOpen={setOpen}
+        companyData={companyData}
+      >
+      </UpdateCompany> : ""}
+    </div>
+  )
 
 }
 

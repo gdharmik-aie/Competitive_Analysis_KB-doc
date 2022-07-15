@@ -1,13 +1,9 @@
-.MuiFormControl-root.TextField {
-  margin: 0.5rem 0;
-  width: 650px;
-}
+
 
 .labelField {
   color: red;
   margin: 0.5rem;
 }
-
 
 .textfield-container {
   display: flex;

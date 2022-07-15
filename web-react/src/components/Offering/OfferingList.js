@@ -28,39 +28,40 @@ query offeringPaginationQuery{
 
 function OfferingList() {
 
-    const [open, setOpen] = React.useState(false);
-    const [offeringData, setOfferingData] = React.useState('')
+  const [open, setOpen] = React.useState(false);
+  const [offeringData, setOfferingData] = React.useState('')
 
-    const { loading, data, error } = useQuery(GET_Offering)
+  const { loading, data, error } = useQuery(GET_Offering)
 
-    const onUpdateClick = (n) => {
-        // console.log("here:", n)
-        setOfferingData(n)
-        setOpen(true)
-    }
+  const onUpdateClick = (n) => {
+    // console.log("here:", n)
+    setOfferingData(n)
+    setOpen(true)
+  }
 
-    if (loading) return "Loading...";
-    if (error) return <pre>{error.message}</pre>
-    return (
-        <div>
+  if (loading) return "Loading...";
+  if (error) return <pre>{error.message}</pre>
+  return (
+    <div>
 
-            <List
-                data={data.offerings}
-                title="Offering"
-                linkName="Create Offering"
-                loading={loading}
-                error={error}
-                onUpdateClick={onUpdateClick}
-            />
+      <List
+        data={data.offerings}
+        title="Offering"
+        linkName="Create Offering"
+        listType="list"
+        loading={loading}
+        error={error}
+        onUpdateClick={onUpdateClick}
+      />
 
-            {offeringData ? <UpdateOffering
-                open={open}
-                setOpen={setOpen}
-                offeringData={offeringData}
-            >
-            </UpdateOffering> : ""}
-        </div>
-    )
+      {offeringData ? <UpdateOffering
+        open={open}
+        setOpen={setOpen}
+        offeringData={offeringData}
+      >
+      </UpdateOffering> : ""}
+    </div>
+  )
 }
 
 export default OfferingList

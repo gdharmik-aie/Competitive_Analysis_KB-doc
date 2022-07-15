@@ -110,6 +110,7 @@ function OfferingDetails() {
                 <Paper className="root offeringDetails">
                   <Heading
                     title="Offering Details"
+                    listType="list"
                     linkName="Offering List"
                   ></Heading>
                   <Card className="cardDetail">

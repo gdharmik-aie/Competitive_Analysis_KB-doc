@@ -76,7 +76,7 @@ function CreateOffering() {
 
   return (
     <Paper className="root createOffering">
-      <Heading title="Create Offering" linkName="Offering List"></Heading>
+      <Heading title="Create Offering" listType="list" linkName="Offering List"></Heading>
 
       <form onSubmit={handlerSubmit}>
         <Typography>

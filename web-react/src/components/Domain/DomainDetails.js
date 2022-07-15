@@ -15,9 +15,11 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Heading from '../Heading'
 import UpdateDomain from './UpdateDomain'
+import CreateDomain from './CreateDomain'
+import DeleteDomain from './DeleteDomain'
 /* import CardView from '../CardView' */
 
-const GET_DOMAIN = gql`
+const GET_SINGLE_DOMAIN = gql`
   query domainsPaginateQuery($where: DomainWhere) {
     domains(where: $where){
     id
@@ -69,18 +71,22 @@ function a11yProps(index) {
 function DomainDetails() {
   const location = useLocation()
   const { id } = location.state
-  const [domainData, setDomainData] = React.useState("")
+  const [domainId, setDomainId] = React.useState("")
+  const [updateDomainData, setUpdateDomainData] = React.useState("")
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    setDomainData("")
+    setUpdateDomainData("")
   };
 
   const [open, setOpen] = React.useState(false);
+  const [createOpen, setCreateOpen] = React.useState(false)
+  const [deleteModalOpen, setDeleteModalOpen] = React.useState(false)
+  const [domainDeleteId, setDomainDeleteId] = React.useState('')
 
 
-  const { loading, data, error } = useQuery(GET_DOMAIN, {
+  const { loading, data, error } = useQuery(GET_SINGLE_DOMAIN, {
     variables: { where: { id: id } },
   })
 
@@ -88,11 +94,22 @@ function DomainDetails() {
 
   const onUpdateClick = (n) => {
     // console.log("here:", n)
-    setDomainData(n)
+    setUpdateDomainData(n)
     setOpen(true)
   }
 
 
+  const onCreateClick = () => {
+
+    setDomainId(id)
+    setCreateOpen(true)
+  }
+
+  const onDeleteClick = (n) => {
+    console.log(n.id)
+    setDomainDeleteId(n.id)
+    setDeleteModalOpen(true)
+  }
 
   return (
     <div>
@@ -106,7 +123,7 @@ function DomainDetails() {
             return (
               <div key={i}>
                 <Paper className="root domainDeatils" >
-                  <Heading title="Domain Details" linkName="Domain List"></Heading>
+                  <Heading title="Domain Details" listType="list" linkName="Domain List"></Heading>
                   <Card className='cardDetail'>
                     <React.Fragment>
                       <CardContent className='cardContent'>
@@ -145,10 +162,13 @@ function DomainDetails() {
                       <List
                         data={data.domains[i].parentDomains}
                         title="Domain"
-                        linkName="Create Domain"
+                        linkName="Add parent domain"
+                        listType="details"
                         loading={loading}
                         error={error}
                         onUpdateClick={onUpdateClick}
+                        onCreateClick={onCreateClick}
+                        onDeleteClick={onDeleteClick}
                       />
 
                     </TabPanel>
@@ -156,19 +176,59 @@ function DomainDetails() {
                       <List
                         data={data.domains[i].childDomains}
                         title="Domain"
-                        linkName="Create Domain"
+                        linkName="Add child domain"
                         loading={loading}
                         error={error}
                         onUpdateClick={onUpdateClick}
+                        onCreateClick={onCreateClick}
+                        onDeleteClick={onDeleteClick}
                       />
                     </TabPanel>
 
                   </Box>
-                  {domainData ? <UpdateDomain
+                  {updateDomainData && value === 1 ? <UpdateDomain
                     open={open}
                     setOpen={setOpen}
-                    domainData={domainData}
-                  /> : ""}
+                    updateDomainData={updateDomainData}
+                    setUpdateDomainData={setUpdateDomainData}
+                    deleteFor="Child"
+                    detailsDomainId={id}
+                  /> : <UpdateDomain
+                    open={open}
+                    setOpen={setOpen}
+                    updateDomainData={updateDomainData}
+                    setUpdateDomainData={setUpdateDomainData}
+                    deleteFor="Parent"
+                    detailsDomainId={id}
+                  />}
+                  {domainDeleteId && value === 1 ? <DeleteDomain
+                    deleteModalOpen={deleteModalOpen}
+                    setDeleteModalOpen={setDeleteModalOpen}
+                    domainId={domainDeleteId}
+                    deleteFor="Child"
+                    detailsDomainId={id}
+                  >
+                  </DeleteDomain> : <DeleteDomain
+                    deleteModalOpen={deleteModalOpen}
+                    setDeleteModalOpen={setDeleteModalOpen}
+                    domainId={domainDeleteId}
+                    deleteFor="Parent"
+                    detailsDomainId={id}
+                  >
+                  </DeleteDomain>}
+                  {createOpen && value === 1 ? <CreateDomain
+                    title="Create Child Domain"
+                    createfor="child"
+                    createOpen={createOpen}
+                    setCreateOpen={setCreateOpen}
+                    domainId={domainId}
+                  ></CreateDomain> : <CreateDomain
+                    title="Create Parent Domain"
+                    createfor="parent"
+                    createOpen={createOpen}
+                    setCreateOpen={setCreateOpen}
+                    domainId={domainId}
+                  ></CreateDomain>}
                 </Paper>
 
               </div>
