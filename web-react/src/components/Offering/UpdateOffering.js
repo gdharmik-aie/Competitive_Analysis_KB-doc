@@ -6,7 +6,7 @@ import { TextField, Button, Box, Typography, Modal, Paper } from '@mui/material'
 import Title from '../Title'
 
 const UPDATE_OFFERING = gql`
-  mutation offeringUpdateMutationQuery(
+  mutation offeringUpdateMutation(
     $where: OfferingWhere
     $update: OfferingUpdateInput
   ) {
@@ -16,56 +16,48 @@ const UPDATE_OFFERING = gql`
         name
         description
         version
-        provider
       }
     }
   }
 `
 
-const DELETE_OFFERING = gql`
-  mutation offeringDeleteMutationQuery($where: OfferingWhere) {
-    deleteOfferings(where: $where) {
-      nodesDeleted
-    }
-  }
-`
 
-export default function UpdateOffering({ open, setOpen, offeringData }) {
+function UpdateOffering({ open, setOpen, updateOfferingData, setUpdateOfferingData }) {
   const [offeringId, setOfferingId] = React.useState('')
   const [offeringName, setOfferingName] = React.useState('')
   const [offeringDescription, setOfferingDescription] = React.useState('')
   const [offeringVersion, setOfferingVersion] = React.useState('')
-  const [offeringProvider, setOfferingProvider] = React.useState('')
+
 
   useEffect(() => {
+    // console.log(updateOfferingData)
     function setData() {
-      setOfferingId(offeringData.id)
-      setOfferingName(offeringData.name)
-      setOfferingDescription(offeringData.description)
+      setOfferingId(updateOfferingData.id)
+      setOfferingName(updateOfferingData.name)
+      setOfferingDescription(updateOfferingData.description)
+      setOfferingVersion(updateOfferingData.version)
     }
 
     setData()
-  }, [offeringData])
+  }, [updateOfferingData])
 
-  const [
-    updateOffering,
-    { error: mutationError },
-  ] = useMutation(UPDATE_OFFERING, {
-    variables: {
-      where: { id: offeringId },
-      update: {
-        name: offeringName,
-        description: offeringDescription,
-        version: offeringVersion,
-        provider: offeringProvider,
+  const [updateOffering, { error: mutationError }] = useMutation(UPDATE_OFFERING,
+    {
+      variables: {
+        where: { id: offeringId },
+        update: {
+          name: offeringName,
+          description: offeringDescription,
+          version: offeringVersion,
+        },
       },
-    },
-  })
+      onCompleted: (data) => {
+        console.log(data);
 
-  const [
-    deleteOffering,
-    { data: deleteMutationData, error: deleteMutationError },
-  ] = useMutation(DELETE_OFFERING, { variables: { where: { id: offeringId } } })
+      }
+    })
+
+
 
   const onOfferingNameChange = (e) => {
     const offeringName = e.target.value
@@ -82,37 +74,24 @@ export default function UpdateOffering({ open, setOpen, offeringData }) {
     setOfferingVersion(offeringVer)
   }
 
-  const onOfferingProviderChange = (e) => {
-    const offeringPrvider = e.target.value
-    setOfferingProvider(offeringPrvider)
-  }
+
 
   const handlerSubmit = (e) => {
-    e.preventionDefault()
+    e.preventDefault()
     updateOffering()
 
     console.log(mutationError)
     if (!mutationError) {
       setOpen(false)
-      window.location.reload()
     }
   }
 
-  const onDeleteOffering = () => {
-    if (offeringId) {
-      deleteOffering()
-      setOpen(false)
-      window.location.reload()
-    }
-    console.log(deleteMutationError)
-    console.log(deleteMutationData)
-    if (deleteMutationData) {
-      alert(`${deleteMutationData} is deleted`)
-    }
+
+
+  const handleClose = () => {
+    setUpdateOfferingData('')
+    setOpen(false)
   }
-
-  const handleClose = () => setOpen(false)
-
   return (
     <div>
       <Modal
@@ -124,7 +103,7 @@ export default function UpdateOffering({ open, setOpen, offeringData }) {
         <Paper>
           <Box className="modalBox">
             <Typography id="modal-modal--title" variant="h5" component="h2">
-              <Title>Update</Title>
+              <Title>Update Offering</Title>
             </Typography>
 
             <form onSubmit={handlerSubmit}>
@@ -148,28 +127,14 @@ export default function UpdateOffering({ open, setOpen, offeringData }) {
                 className="TextField"
                 required
                 id="outlined-required"
-                label="Offering Description"
+                label="Offering Version"
                 defaultValue={offeringVersion}
                 onChange={onOfferingVersionChange}
               ></TextField>
-              <TextField
-                className="TextField"
-                required
-                id="outlined-required"
-                label="Offering Description"
-                defaultValue={offeringProvider}
-                onChange={onOfferingProviderChange}
-              ></TextField>
+
 
               <div className="button-container">
-                <Button
-                  className="formButton"
-                  color="primary"
-                  variant="contained"
-                  onClick={() => onDeleteOffering()}
-                >
-                  Delete
-                </Button>
+
                 <Button
                   className="formButton"
                   color="primary"
@@ -186,3 +151,4 @@ export default function UpdateOffering({ open, setOpen, offeringData }) {
     </div>
   )
 }
+export default UpdateOffering

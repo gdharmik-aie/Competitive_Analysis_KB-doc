@@ -30,7 +30,7 @@ const ITEM_HEIGHT = 48;
     }),
 })); */
 
-export default function CardView({ data, title, onUpdateClick }) {
+export default function CardView({ data, title, onUpdateClick, onDeleteClick }) {
     /* const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
@@ -48,7 +48,7 @@ export default function CardView({ data, title, onUpdateClick }) {
 
     return (
         <Card className='cardView' >
-            {/*  <Link className='cardlink' to={{ pathname: `/details${title}`, state: { name: data.name } }}  > */}
+
             <CardHeader
                 avatar={
                     <Avatar sx={{ bgcolor: "#1976d2" }} aria-label={data.name}>
@@ -81,25 +81,34 @@ export default function CardView({ data, title, onUpdateClick }) {
                                 },
                             }}
                         >
-                            <Link to={{ pathname: `/details${title}`, state: { id: data.id } }} className="cardLink" >
+                            {/* <Link to={{ pathname: `/details${title}`, state: { id: data.id } }} className="cardLink" >
                                 <MenuItem >
                                     <Button
                                         variant="text">
                                         Details
                                     </Button>
                                 </MenuItem>
-                            </Link>
-                            <MenuItem >
+                            </Link> */}
+                            <MenuItem style={{ padding: 4 }}>
                                 <Button
+                                    className='cardButton'
                                     variant="text"
                                     onClick={() => onUpdateClick(data)}>update
                                 </Button>
                             </MenuItem>
+                            <MenuItem style={{ padding: 4 }}>
+                                <Button
+                                    className='cardButton'
+                                    variant="text"
+                                    onClick={() => { handleClose(); onDeleteClick(data) }}>Delete
+                                </Button>
+                            </MenuItem>
                         </Menu>
                     </div>}
-                title={data.name}
-            >{title}</CardHeader>
-            {/*  </Link> */}
+                title={<Link to={{ pathname: `/details${title}`, state: { id: data.id } }}>{data.name}</Link>}
+
+            > </CardHeader>
+
 
             {/*  <CardMedia
                 component="img"

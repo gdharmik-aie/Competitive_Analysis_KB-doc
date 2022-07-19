@@ -17,6 +17,10 @@ import Heading from '../Heading'
 /* import UpdateOffering from './UpdateOffering' */
 import UpdateDomain from '../Domain/UpdateDomain'
 import UpdateCompany from '../Company/UpdateCompany'
+import CreateDomain from '../Domain/CreateDomain'
+import DeleteDomain from '../Domain/DeleteDomain'
+import CreateCompany from '../Company/CreateCompany'
+import DeleteCompany from '../Company/DeleteCompany'
 
 const GET_OFFERING = gql`
   query offeringsPaginateQuery($where: OfferingWhere) {
@@ -32,8 +36,12 @@ const GET_OFFERING = gql`
     }
     provider {
       id
-      name
-      description
+        name
+        description
+        website
+        city
+        region
+        country
     }
   }
   }
@@ -69,16 +77,24 @@ function a11yProps(index) {
 function OfferingDetails() {
   const location = useLocation()
   const { id } = location.state
-  const [primaryDomainData, setrimaryDomainData] = React.useState()
+  const [offeringId, setOfferingId] = React.useState("")
+  const [primaryDomainData, setPrimaryDomainData] = React.useState()
   const [companyData, setCompanyData] = React.useState("")
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    setrimaryDomainData("")
+    setPrimaryDomainData("")
     setCompanyData("")
   };
 
   const [open, setOpen] = React.useState(false);
+  const [createDomainOpen, setCreateDomainOpen] = React.useState(false)
+  const [createCompanyOpen, setCreateCompanyOpen] = React.useState(false)
+  const [deleteDomainOpen, setDeleteDomainOpen] = React.useState(false)
+  const [deleteCompanyOpen, setDeleteCompanyOpen] = React.useState(false)
+  const [domainDeleteId, setDomainDeleteId] = React.useState('')
+  const [companyDeleteId, setCompanyDeleteId] = React.useState('')
+
   /* const [offeringData, setOfferingData] = React.useState("") */
 
 
@@ -87,15 +103,37 @@ function OfferingDetails() {
   })
 
   const onUpdateDomainClick = (n) => {
-    setrimaryDomainData(n)
+    setPrimaryDomainData(n)
     setOpen(true)
   }
 
-  const onUpdateComapnyClick = (n) => {
-    console.log(n)
-    setCompanyData(n)
+  const onUpdateCompanyClick = (data) => {
+    console.log(data)
+    setCompanyData(data)
 
     setOpen(true)
+  }
+
+  const onCreateDomainClick = () => {
+    setOfferingId(id)
+    setCreateDomainOpen(true)
+  }
+
+  const onCreateCompanyClick = () => {
+    setOfferingId(id)
+    setCreateCompanyOpen(true)
+  }
+
+  const onDeleteDomainClick = (n) => {
+    setOfferingId(id)
+    setDomainDeleteId(n.id)
+    setDeleteDomainOpen(true)
+  }
+
+  const onDeleteCompanyClick = (n) => {
+    setOfferingId(id)
+    setCompanyDeleteId(n.id)
+    setDeleteCompanyOpen(true)
   }
 
   return (
@@ -110,6 +148,7 @@ function OfferingDetails() {
                 <Paper className="root offeringDetails">
                   <Heading
                     title="Offering Details"
+                    listType="details"
                     linkName="Offering List"
                   ></Heading>
                   <Card className="cardDetail">
@@ -148,22 +187,28 @@ function OfferingDetails() {
                     <TabPanel value={value} index={0}>
                       <List
                         data={data.offerings[i].primaryDomain}
-                        title="Domain"
-                        linkName="Create Offering"
+                        title="Primary Domain"
+                        linkName="Add Primary Domain"
+                        listType="list"
                         loading={loading}
                         error={error}
                         onUpdateClick={onUpdateDomainClick}
+                        onCreateClick={onCreateDomainClick}
+                        onDeleteClick={onDeleteDomainClick}
                       />
 
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                       <List
                         data={data.offerings[i].provider}
-                        title="Company"
-                        linkName="Create Offering"
+                        title="Provider Company"
+                        linkName="Add Provider Company"
+                        listType="list"
                         loading={loading}
                         error={error}
-                        onUpdateClick={onUpdateComapnyClick}
+                        onUpdateClick={onUpdateCompanyClick}
+                        onCreateClick={onCreateCompanyClick}
+                        onDeleteClick={onDeleteCompanyClick}
                       />
 
                     </TabPanel>
@@ -172,14 +217,43 @@ function OfferingDetails() {
                   {primaryDomainData ? <UpdateDomain
                     open={open}
                     setOpen={setOpen}
-                    domainData={primaryDomainData}
+                    updateDomainData={primaryDomainData}
+                    setUpdateDomainData={setPrimaryDomainData}
                   /> : ""}
-
+                  {<CreateDomain
+                    title="Primay Domain"
+                    createfor="offering"
+                    createOpen={createDomainOpen}
+                    setCreateOpen={setCreateDomainOpen}
+                    offeringId={offeringId}
+                  ></CreateDomain>}
+                  {domainDeleteId ? <DeleteDomain
+                    deleteModalOpen={deleteDomainOpen}
+                    setDeleteModalOpen={setDeleteDomainOpen}
+                    domainId={domainDeleteId}
+                    deleteFor="Offering"
+                    detailsOfferingId={offeringId}
+                  ></DeleteDomain> : ""}
                   {companyData ? <UpdateCompany
                     open={open}
                     setOpen={setOpen}
-                    companyData={companyData}
+                    updateCompanyData={companyData}
+                    setUpdateCompanyData={setCompanyData}
                   /> : ""}
+                  {<CreateCompany
+                    title="Provider Company"
+                    createModalOpen={createCompanyOpen}
+                    setCreateModalOpen={setCreateCompanyOpen}
+                    createfor="Offering"
+                    offeringId={offeringId}
+                  ></CreateCompany>}
+                  {companyDeleteId ? <DeleteCompany
+                    deleteModalOpen={deleteCompanyOpen}
+                    setDeleteModalOpen={setDeleteCompanyOpen}
+                    companyId={companyDeleteId}
+                    deleteFor="Offering"
+                    detailsOfferingId={offeringId}
+                  ></DeleteCompany> : ""}
                 </Paper>
 
               </div>

@@ -91,3 +91,58 @@ title {
 .cardLink {
   text-decoration: none;
 }
+
+.cardButton {
+  width: 100%;
+}
+
+.MuiFormControl-root.TextField {
+  margin: 0.5rem 0;
+  width: 570px;
+}
+
+.MuiBox-root.modalBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  background-color: white;
+  border: none;
+  box-shadow: 14px;
+  padding: 14px;
+}
+
+.MuiBox-root.modalDeleteBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  background-color: white;
+  border: none;
+  box-shadow: 14px;
+  padding: 14px;
+}
+
+.delete-button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.deleteLabel {
+  margin: 10px;
+}
+
+.MuiButton-root.deleteButton:hover {
+  background-color: red;
+  color: white;
+  border: none;
+}
+
+.MuiButton-root.cancelButton:hover {
+  background-color: green;
+  color: white;
+  border: none;
+}

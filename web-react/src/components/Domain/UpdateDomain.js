@@ -21,20 +21,14 @@ const UPDATE_DOMAIN = gql`
     updateDomains(where: $where, update: $update){
        domains {
          id
+         name
          description
         }
     }
   }
 `
-const DETETE_USER = gql`
-  mutation domainDeleteMutationQuery($where: DomainWhere) {
-  deleteDomains(where: $where) {
-     nodesDeleted
-  }
-} 
-`
 
-export default function UpdateDomain({ open, setOpen, domainData }) {
+export default function UpdateDomain({ open, setOpen, updateDomainData, setUpdateDomainData }) {
 
     const [domainId, setDomainId] = React.useState("")
     const [domainName, setDomainName] = React.useState("")
@@ -42,61 +36,54 @@ export default function UpdateDomain({ open, setOpen, domainData }) {
     //const [domainData, setDomianData] = React.useState({})
 
 
-
     useEffect(() => {
         function setData() {
-            setDomainId(domainData.id)
-            setDomainName(domainData.name)
-            setDomainDescription(domainData.description)
+            setDomainId(updateDomainData.id)
+            setDomainName(updateDomainData.name)
+            setDomainDescription(updateDomainData.description)
+            console.log(updateDomainData)
+
 
         }
 
         setData()
-    }, [domainData])
-
-
+    }, [updateDomainData])
+    console.log(domainId)
 
     const [updateDomain, { error: mutationError }] = useMutation(UPDATE_DOMAIN,
-        { variables: { where: { id: domainId }, update: { name: domainName, description: domainDescription } } })
+        {
+            variables: { where: { id: domainId }, update: { name: domainName, description: domainDescription } },
+            onCompleted: (data) => {
+                console.log(data);
 
-    const [deleteDomain, { data: deleteMutationData, error: deleteMutationError }] = useMutation(DETETE_USER,
-        { variables: { where: { id: domainId, } } })
+            }
+        })
+
 
     const onDomainNameChange = (e) => {
-        const domainName = e.target.value
-        setDomainName(domainName)
+        //const name = e.target.value
+        setDomainName(e.target.value)
     }
     const onDomainDesChange = (e) => {
-        const domainDes = e.target.value
-        setDomainDescription(domainDes)
+        //const domainDes = e.target.value
+        setDomainDescription(e.target.value)
     }
 
     const handlerSubmit = (e) => {
         e.preventDefault()
         updateDomain()
-
         console.log(mutationError)
         if (!mutationError) {
             setOpen(false)
-            window.location.reload()
         }
     }
 
-    const OnDeleteDomain = () => {
-        //setDomainId(updateData.domainId)
-        if (domainId) {
-            deleteDomain()
-            setOpen(false)
-            window.location.reload()
-        }
-        console.log(deleteMutationError)
-        console.log(deleteMutationData)
-        if (deleteMutationData) {
-            alert(`${deleteMutationData} is deletd`)
-        }
-    }
 
-    const handleClose = () => setOpen(false);
+
+    const handleClose = () => {
+        setOpen(false)
+        setUpdateDomainData("")
+    };
 
 
 
@@ -137,15 +124,13 @@ export default function UpdateDomain({ open, setOpen, domainData }) {
 
 
                             <div className='button-container'>
-                                <Button className='formButton' color="primary" variant="contained" onClick={() => OnDeleteDomain()}>
-                                    Delete
-                                </Button>
-                                <Button className='formButton' color="primary" variant="contained" type='submit'>Submit</Button>
+                                <Button className='formButton' color="primary" variant="contained" type='submit'>Update</Button>
                             </div>
 
                         </form>
                     </Box>
                 </Paper>
-            </Modal></div>
+            </Modal>
+        </div>
     )
 }
