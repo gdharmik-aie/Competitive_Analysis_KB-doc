@@ -71,7 +71,7 @@ n */
         data={data.domains}
         title="Domain"
         linkName="Create Domain"
-        listType="details"
+        listType="list"
         loading={loading}
         error={error}
         onUpdateClick={onUpdateClick}
@@ -83,7 +83,6 @@ n */
         open={open}
         setOpen={setOpen}
         updateDomainData={updateDomainData}
-        GET_DOMAIN={GET_DOMAIN}
         setUpdateDomainData={setUpdateDomainData}
       /> : ""}
 

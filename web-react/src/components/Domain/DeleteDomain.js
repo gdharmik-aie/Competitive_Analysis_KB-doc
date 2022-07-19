@@ -58,8 +58,45 @@ mutation UpdateParentDomains($where: DomainWhere, $delete: DomainDeleteInput) {
   }
 }
 `
+const DELETE_OFFERING_PRIMARY_DOMAIN = gql`
+mutation DeleteOfferingPrimaryDomain($where: OfferingWhere, $delete: OfferingDeleteInput) {
+  updateOfferings(where: $where, delete: $delete) {
+    offerings {
+      id
+      name
+      description
+      version
+      primaryDomain {
+        id
+        name
+        description
+      }
+    }
+  }
+}
+`
+const DELETE_COMPANY_PRIMARY_DOMAIN = gql`
+mutation DeleteCompanyPrimaryDomain($where: CompanyWhere, $delete: CompanyDeleteInput) {
+  updateCompanies(where: $where, delete: $delete) {
+    companies {
+      id
+      name
+      description
+      website
+      city
+      region
+      country
+      primaryDomain {
+        id
+        name
+        description
+      }
+    }
+  }
+}
+`
 
-function DeleteDomain({ deleteModalOpen, setDeleteModalOpen, domainId, GET_DOMAIN, deleteFor, detailsDomainId }) {
+function DeleteDomain({ deleteModalOpen, setDeleteModalOpen, domainId, GET_DOMAIN, deleteFor, detailsDomainId, detailsOfferingId, detailsCompanyId }) {
 
     const [deleteDomain] = useMutation(DETETE_DOMAINS,
         {
@@ -118,6 +155,44 @@ function DeleteDomain({ deleteModalOpen, setDeleteModalOpen, domainId, GET_DOMAI
         }
     })
 
+    const [deleteOfferingPrimaryDomain] = useMutation(DELETE_OFFERING_PRIMARY_DOMAIN,
+        {
+            variables: {
+
+                where: {
+                    id: detailsOfferingId
+                },
+                delete: {
+                    primaryDomain: [
+                        {
+                            where: {
+                                id: domainId
+                            }
+                        }
+                    ]
+                }
+
+            }
+        })
+
+    const [deleteCompanyPrimaryDomain] = useMutation(DELETE_COMPANY_PRIMARY_DOMAIN,
+        {
+            variables: {
+                where: {
+                    id: detailsCompanyId
+                },
+                delete: {
+                    primaryDomain: [
+                        {
+                            where: {
+                                id: domainId
+                            }
+                        }
+                    ]
+                }
+            }
+        })
+
 
     const onDomainDelete = () => {
         //setDomainId(updateData.domainId)
@@ -125,15 +200,19 @@ function DeleteDomain({ deleteModalOpen, setDeleteModalOpen, domainId, GET_DOMAI
             console.log("child called")
             deleteChildDomains()
             setDeleteModalOpen(false)
-
         } else if (deleteFor === "Parent") {
             console.log("parent called")
             deleteParentDomains()
             setDeleteModalOpen(false)
-        }
-        else if (domainId) {
-            console.log(domainId)
-            console.log("domain delete from list")
+        } else if (deleteFor === "Offering") {
+            deleteOfferingPrimaryDomain()
+            setDeleteModalOpen(false)
+        } else if (deleteFor === "Company") {
+            deleteCompanyPrimaryDomain()
+            setDeleteModalOpen(false)
+        } else if (domainId) {
+            // console.log(domainId)
+            //console.log("domain delete from list")
             deleteDomain()
             setDeleteModalOpen(false)
         }

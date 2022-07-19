@@ -1,27 +1,55 @@
 import React from 'react'
 import { gql, useMutation } from '@apollo/client'
-import { Paper, TextField, Button, Typography } from '@mui/material'
+import {
+  Paper,
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Modal,
+} from '@mui/material'
 import Title from '../Title'
-import { Link } from 'react-router-dom'
-
 
 
 const CREATE_COMPANY = gql`
   mutation companyCreateMutationQuery($input: [CompanyCreateInput!]!) {
     createCompanies(input: $input) {
       companies {
+          id
+          name
+          description
+          website
+          city
+         region
+         country
+      }
+    }
+  }
+`
+
+const CREATE_PROVIDER_COMPANY = gql`
+mutation UpdateProviderCompanies($where: OfferingWhere, $create: OfferingRelationInput) {
+  updateOfferings(where: $where, create: $create) {
+    offerings {
+      id
+      name
+      description
+      version
+      provider {
+        id
         name
         description
         website
         city
         region
         country
-        domain
       }
     }
   }
+}
 `
-function CreateCompany() {
+
+function CreateCompany({ title, createModalOpen, setCreateModalOpen, GET_COMPANY, createfor, offeringId }) {
 
   /*  const [companyId, setCompanyId] = React.useState('') */
   const [companyName, setCompanyName] = React.useState('')
@@ -30,24 +58,61 @@ function CreateCompany() {
   const [companyCity, setCompanyCity] = React.useState('')
   const [companyRegion, setCompanyRegion] = React.useState('')
   const [companyCountry, setCompanyCountry] = React.useState('')
-  const [companyDomain, setCompanyDomain] = React.useState('')
 
-  const [
-    createCompanies,
-    { loading: mutationLoading, error: mutationError },
-  ] = useMutation(CREATE_COMPANY, {
-    variables: {
-      input: {
-        name: companyName,
-        description: companyDescription,
-        website: companyWebsite,
-        city: companyCity,
-        region: companyRegion,
-        country: companyCountry,
-        domain: companyDomain,
+
+  const [companyCreated] = useMutation(CREATE_COMPANY,
+    {
+      variables: {
+        input: {
+          name: companyName,
+          description: companyDescription,
+          website: companyWebsite,
+          city: companyCity,
+          region: companyRegion,
+          country: companyCountry,
+
+        }
       },
-    },
-  })
+      onCompleted: (data) => {
+        console.log(data)
+      },
+      update(cache, { data }) {
+        const { companies } = cache.readQuery({ query: GET_COMPANY });
+
+        cache.writeQuery({
+          query: GET_COMPANY,
+          data: {
+            companies: [
+              data.createCompanies.companies,
+              ...companies
+            ]
+          }
+        });
+      }
+    })
+
+  const [createProviderCompany] = useMutation(CREATE_PROVIDER_COMPANY,
+    {
+      variables: {
+        where: {
+          id: offeringId
+        },
+        create: {
+          provider: [
+            {
+              name: companyName,
+              description: companyDescription,
+              website: companyWebsite,
+              city: companyCity,
+              region: companyRegion,
+              country: companyCountry
+            }
+          ]
+        }
+      }, onCompleted: (data) => {
+        console.log(data)
+      }
+    })
 
   const onCompanyNameChange = (e) => {
     const companyName = e.target.value
@@ -79,116 +144,125 @@ function CreateCompany() {
     setCompanyCountry(companyCountry)
   }
 
-  const onCompanyDomainChange = (e) => {
-    const companyDomain = e.target.value
-    setCompanyDomain(companyDomain)
-  }
 
-  const onCreateCompany = () => {
-    createCompanies()
-  }
+
 
   const handlerSubmit = (e) => {
     e.preventDefault()
-    createCompanies()
-    console.log(mutationError)
-    console.log(mutationLoading)
-    if (!mutationError) {
+    if (createfor === "Offering") {
+      createProviderCompany()
+      setCreateModalOpen(false)
       setCompanyName('')
       setCompanyDescription('')
       setCompanyWebsite('')
       setCompanyCity('')
       setCompanyRegion('')
       setCompanyCountry('')
-      setCompanyDomain('')
+    } else {
+      companyCreated()
+      setCreateModalOpen(false)
+      setCompanyName('')
+      setCompanyDescription('')
+      setCompanyWebsite('')
+      setCompanyCity('')
+      setCompanyRegion('')
+      setCompanyCountry('')
     }
+
   }
 
-  return (
-    <Paper className="root" style={{ width: "50%" }}>
-      <div className="title-container">
-        <Title>Add Company</Title>
-        <Link to="/companyList" className="navLink">
-          <Button color="primary" variant="outlined">
-            Company List
-          </Button>
-        </Link>
-      </div>
+  const handleClose = () => {
+    setCreateModalOpen(false)
+  };
 
-      <form onSubmit={handlerSubmit}>
-        <Typography>
-          <TextField
-            className="textField"
-            required
-            label="Company Name"
-            onChange={onCompanyNameChange}
-            value={companyName}
-          ></TextField>
-        </Typography>
-        <Typography>
-          <TextField
-            className="textField"
-            required
-            label="Company Description"
-            onChange={onCompanyDescriptionChange}
-            value={companyDescription}
-          ></TextField>
-        </Typography>
-        <Typography>
-          <TextField
-            className="textField"
-            required
-            label="Company Website"
-            onChange={onCompanyWebsiteChange}
-            value={companyWebsite}
-          ></TextField>
-        </Typography>
-        <Typography>
-          <TextField
-            className="textField"
-            required
-            label="Company City"
-            onChange={onCompanyCityChange}
-            value={companyCity}
-          ></TextField>
-        </Typography>
-        <Typography>
-          <TextField
-            className="textField"
-            required
-            label="Company Region"
-            onChange={onCompanyRegionChange}
-            value={companyRegion}
-          ></TextField>
-        </Typography>{' '}
-        <Typography>
-          <TextField
-            className="textField"
-            required
-            label="Company Country"
-            onChange={onCompanyCountryChange}
-            value={companyCountry}
-          ></TextField>
-        </Typography>
-        <Typography>
-          <TextField
-            className="textField"
-            required
-            label="Company Domain"
-            onChange={onCompanyDomainChange}
-            value={companyDomain}
-          ></TextField>
-        </Typography>
-        <Button
-          onClick={onCreateCompany}
-          variant="contained"
-          className="submitButton"
-          type="submit"
-        >
-          Create
-        </Button>
-      </form>
-    </Paper>
+  return (
+    <div>
+      <Modal
+        open={createModalOpen}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Paper >
+          {/* <Heading title=" Create Domain" listType="list" linkName="Domain List"></Heading> */}
+          <Box className="modalBox">
+            <Typography id="modal-modal-title" variant="h5" component="h2" >
+              <Title>{title}</Title>
+            </Typography>
+
+            <form onSubmit={handlerSubmit}>
+              <Typography>
+                <TextField
+                  className="textField"
+                  required
+                  label="Company Name"
+                  onChange={onCompanyNameChange}
+                  value={companyName}
+                ></TextField>
+              </Typography>
+              <Typography>
+                <TextField
+                  className="textField"
+                  required
+                  label="Company Description"
+                  onChange={onCompanyDescriptionChange}
+                  value={companyDescription}
+                ></TextField>
+              </Typography>
+              <Typography>
+                <TextField
+                  className="textField"
+                  required
+                  label="Company Website"
+                  onChange={onCompanyWebsiteChange}
+                  value={companyWebsite}
+                ></TextField>
+              </Typography>
+              <Typography>
+                <TextField
+                  className="textField"
+                  required
+                  label="Company City"
+                  onChange={onCompanyCityChange}
+                  value={companyCity}
+                ></TextField>
+              </Typography>
+              <Typography>
+                <TextField
+                  className="textField"
+                  required
+                  label="Company Region"
+                  onChange={onCompanyRegionChange}
+                  value={companyRegion}
+                ></TextField>
+              </Typography>{' '}
+              <Typography>
+                <TextField
+                  className="textField"
+                  required
+                  label="Company Country"
+                  onChange={onCompanyCountryChange}
+                  value={companyCountry}
+                ></TextField>
+              </Typography>
+              <div className='button-container'>
+                <Button
+                  className="formButton"
+                  variant="contained"
+                  type="submit"
+                >
+                  Create
+                </Button>
+              </div>
+            </form>
+          </Box>
+          {/* <div>
+                <p className={domainId ? 'Success-message' : 'hidden-message'}>{`Domain with domainId ${domainId} is created`}</p>
+            </div> */}
+        </Paper>
+      </Modal>
+    </div>
+
   )
 }
 

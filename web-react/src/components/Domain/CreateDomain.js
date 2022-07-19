@@ -67,10 +67,46 @@ mutation createParentDomains($where: DomainWhere, $create: DomainRelationInput) 
   }
 }
 `
+const CREATE_OFFERING_PRIMARY_DOMAIN = gql`
+mutation CreateOfferingPrimaryDomain($where: OfferingWhere, $create: OfferingRelationInput) {
+  updateOfferings(where: $where, create: $create) {
+    offerings {
+      id
+      name
+      description
+      version
+      primaryDomain {
+        id
+        name
+        description
+      }
+    }
+  }
+}
+`
+const CREATE_COMPANY_PRIMARY_DOMAIN = gql`
+mutation CreateCompanyPrimaryDomain($where: CompanyWhere, $create: CompanyRelationInput) {
+  updateCompanies(where: $where, create: $create) {
+    companies {
+      id
+      name
+      description
+      website
+      city
+      region
+      country
+      primaryDomain {
+        id
+        name
+        description
+      }
+    }
+  }
+}
+`
 
 
-
-function CreateDomain({ title, createOpen, setCreateOpen, GET_DOMAIN, createfor, domainId }) {
+function CreateDomain({ title, createOpen, setCreateOpen, GET_DOMAIN, createfor, domainId, offeringId, companyId }) {
 
     /*  const [domainId, setDoaminId] = React.useState("") */
     const [domainName, setDomainName] = React.useState("")
@@ -161,6 +197,40 @@ function CreateDomain({ title, createOpen, setCreateOpen, GET_DOMAIN, createfor,
             }
         })
 
+    const [createOfferingPrimaryDomain] = useMutation(CREATE_OFFERING_PRIMARY_DOMAIN,
+        {
+            variables: {
+                where: {
+                    id: offeringId
+                },
+                create: {
+                    primaryDomain: [
+                        {
+                            name: domainName,
+                            description: domainDescription
+                        }
+                    ]
+                }
+            }
+        })
+
+    const [createCompanyPrimaryDomain] = useMutation(CREATE_COMPANY_PRIMARY_DOMAIN,
+        {
+            variables: {
+                where: {
+                    id: companyId
+                },
+                create: {
+                    primaryDomain: [
+                        {
+                            name: domainName,
+                            description: domainDescription
+                        }
+                    ]
+                }
+            }
+        })
+
     const onDomainNameChange = (e) => {
         const domainName = e.target.value
         setDomainName(domainName)
@@ -175,7 +245,7 @@ function CreateDomain({ title, createOpen, setCreateOpen, GET_DOMAIN, createfor,
     const handlerSubmit = async (e) => {
 
         e.preventDefault()
-        console.log(domainId)
+        //console.log(companyId)
         if (domainId) {
             if (createfor === "child") {
                 createChildDomain()
@@ -185,6 +255,12 @@ function CreateDomain({ title, createOpen, setCreateOpen, GET_DOMAIN, createfor,
                 setCreateOpen(false)
             }
             /*  console.log(createchildData) */
+        } else if (offeringId) {
+            createOfferingPrimaryDomain()
+            setCreateOpen(false)
+        } else if (companyId) {
+            createCompanyPrimaryDomain()
+            setCreateOpen(false)
         } else {
             domainCreated()
             setCreateOpen(false)
@@ -231,7 +307,7 @@ function CreateDomain({ title, createOpen, setCreateOpen, GET_DOMAIN, createfor,
                             </Typography>
                             <div className='button-container'>
                                 <Button className="formButton" type='submit' variant="contained" color='primary'>
-                                    {title}
+                                    Create
                                 </Button>
                             </div>
                         </form>

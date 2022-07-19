@@ -15,8 +15,13 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Heading from '../Heading'
 import UpdateDomain from '../Domain/UpdateDomain'
+import CreateDomain from '../Domain/CreateDomain'
+import DeleteDomain from '../Domain/DeleteDomain'
 import UpdateOffering from '../Offering/UpdateOffering'
-import UpdateCompany from './UpdateCompany'
+import CreateOffering from '../Offering/CreateOffering'
+import DeleteOffering from '../Offering/DeleteOffering'
+
+
 
 const GET_COMPANY = gql`
  query comapnyQuery($where: CompanyWhere){
@@ -34,9 +39,10 @@ const GET_COMPANY = gql`
       description
     }
     offeringsUsed {
-      id
+       id
       name
       description
+      version
     }
     offeringsProvided {
       id
@@ -78,21 +84,46 @@ function a11yProps(index) {
 function CompanyDetails() {
     const location = useLocation()
     const { id } = location.state
+    const [companyId, setCompanyId] = React.useState("")
     const [updateDomainData, setUpdateDomainData] = React.useState("")
-    const [offeringData, setOferingData] = React.useState("")
-    const [companyData, setCompanyData] = React.useState("")
-
+    const [offeringUsedData, setOfferingUsedData] = React.useState("")
+    const [offeringProvideData, setOfferingProvideData] = React.useState("")
+    const [offeringProvide, setOfferingProvide] = React.useState(false)
 
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
+        console.log(`newValue ${newValue}`)
+        if (newValue === 2) {
+            setOfferingProvide(true)
+        } else {
+            setOfferingProvide(false)
+        }
         setValue(newValue);
         setUpdateDomainData("")
-        setOferingData("")
-        setCompanyData("")
+        setOfferingUsedData("")
+        setOfferingProvideData("")
+
     };
 
+
+
     const [open, setOpen] = React.useState(false)
+    const [createDomainOpen, setCreateDomainOpen] = React.useState(false)
+    const [deleteDomainOpen, setDeleteDomainOpen] = React.useState(false)
+    const [domainDeleteId, setDomainDeleteId] = React.useState('')
+
+    const [createOfferingUsedOpen, setCreateOfferingUsedOpen] = React.useState(false)
+    const [deleteOfferingUsedOpen, setDeleteOfferingUsedOpen] = React.useState(false)
+    const [offeringUsedDeleteId, setofferingUsedDeleteId] = React.useState('')
+
+
+
+    const [createOfferingProvideOpen, setCreateOfferingProvideOpen] = React.useState(false)
+    const [deleteOfferingProvideOpen, setDeleteOfferingProvideOpen] = React.useState(false)
+    const [offeringProvideDeleteId, setofferingProvideDeleteId] = React.useState('')
+
+
 
     const { loading, data, error } = useQuery(GET_COMPANY, {
         variables: { where: { id: id } }
@@ -103,17 +134,50 @@ function CompanyDetails() {
         setUpdateDomainData(n)
         setOpen(true)
     }
+    const onDomainCreateClick = () => {
+        setCompanyId(id)
+        setCreateDomainOpen(true)
+    }
+    const onDomainDeleteClick = (n) => {
+        setCompanyId(id)
+        setDomainDeleteId(n.id)
+        setDeleteDomainOpen(true)
+    }
 
-    const onUpdateOfferingClick = (n) => {
+    const onUpdateOfferingUsedClick = (n) => {
         // console.log("here:", n)
-        setOferingData(n)
+        setOfferingUsedData(n)
         setOpen(true)
     }
-    const onUpdateCompanyClick = (n) => {
-        // console.log("here:", n)
-        setCompanyData(n)
+    const onCreateOfferingUsedClick = () => {
+        setCompanyId(id)
+        setCreateOfferingUsedOpen(true)
+    }
+    const onDeleteOfferingUsedClick = (n) => {
+        setCompanyId(id)
+        setofferingUsedDeleteId(n.id)
+        setDeleteOfferingUsedOpen(true)
+    }
+
+    const onUpdateOfferingProvideClick = (n) => {
+        setOfferingProvideData(n)
         setOpen(true)
     }
+    const onCreateOfferingProvideClick = () => {
+        setCompanyId(id)
+        setCreateOfferingProvideOpen(true)
+    }
+
+    const onDeleteOfferingProvideClick = (n) => {
+        setCompanyId(id)
+        setofferingProvideDeleteId(n.id)
+        setDeleteOfferingProvideOpen(true)
+    }
+
+
+
+
+
 
     return (
         <div>
@@ -125,7 +189,7 @@ function CompanyDetails() {
                         return (
                             <div key={i}>
                                 <Paper className="root companyDetails" >
-                                    <Heading title="Company Details" listType="list" linkName="Company List"></Heading>
+                                    <Heading title="Company Details" listType="details" linkName="Company List"></Heading>
                                     <Card className='cardDetail'>
                                         <React.Fragment>
                                             <CardContent className='cardContent'>
@@ -163,32 +227,41 @@ function CompanyDetails() {
                                         <TabPanel value={value} index={0}>
                                             <List
                                                 data={data.companies[i].primaryDomain}
-                                                title="Domain"
-                                                linkName="Create Company"
+                                                title="Primary Domain"
+                                                linkName="Add Primary Domain"
+                                                listType="list"
                                                 loading={loading}
                                                 error={error}
                                                 onUpdateClick={onUpdateDomainClick}
+                                                onCreateClick={onDomainCreateClick}
+                                                onDeleteClick={onDomainDeleteClick}
                                             />
 
                                         </TabPanel>
                                         <TabPanel value={value} index={1}>
                                             <List
                                                 data={data.companies[i].offeringsUsed}
-                                                title="Offering"
-                                                linkName="Create Company"
+                                                title="Offering Used"
+                                                linkName="Add Offering used"
+                                                listType="list"
                                                 loading={loading}
                                                 error={error}
-                                                onUpdateClick={onUpdateOfferingClick}
+                                                onUpdateClick={onUpdateOfferingUsedClick}
+                                                onCreateClick={onCreateOfferingUsedClick}
+                                                onDeleteClick={onDeleteOfferingUsedClick}
                                             />
                                         </TabPanel>
                                         <TabPanel value={value} index={2}>
                                             <List
                                                 data={data.companies[i].offeringsProvided}
-                                                title="Company"
-                                                linkName="Create Company"
+                                                title="Offering Provider"
+                                                linkName="Add Offering Provided"
+                                                listType="list"
                                                 loading={loading}
                                                 error={error}
-                                                onUpdateClick={onUpdateCompanyClick}
+                                                onUpdateClick={onUpdateOfferingProvideClick}
+                                                onCreateClick={onCreateOfferingProvideClick}
+                                                onDeleteClick={onDeleteOfferingProvideClick}
                                             />
                                         </TabPanel>
                                     </Box>
@@ -196,20 +269,64 @@ function CompanyDetails() {
                                         open={open}
                                         setOpen={setOpen}
                                         updateDomainData={updateDomainData}
-                                    >
-                                    </UpdateDomain> : ""}
-                                    {offeringData ? <UpdateOffering
+                                        setUpdateDomainData={setUpdateDomainData}
+                                    ></UpdateDomain> : ""}
+                                    {<CreateDomain
+                                        title="Primay Domain"
+                                        createfor="Company"
+                                        createOpen={createDomainOpen}
+                                        setCreateOpen={setCreateDomainOpen}
+                                        companyId={companyId}
+                                    ></CreateDomain>}
+                                    {domainDeleteId ? <DeleteDomain
+                                        deleteModalOpen={deleteDomainOpen}
+                                        setDeleteModalOpen={setDeleteDomainOpen}
+                                        domainId={domainDeleteId}
+                                        deleteFor="Company"
+                                        detailsCompanyId={companyId}
+                                    ></DeleteDomain> : ""}
+                                    {offeringUsedData ? <UpdateOffering
                                         open={open}
                                         setOpen={setOpen}
-                                        offeringData={offeringData}
-                                    >
-                                    </UpdateOffering> : ""}
-                                    {companyData ? <UpdateCompany
-                                        open={open}
-                                        setOpen={setOpen}
-                                        companyData={companyData}
-                                    >
-                                    </UpdateCompany> : ""}
+                                        updateOfferingData={offeringUsedData}
+                                        setUpdateOfferingData={setOfferingUsedData}
+                                    ></UpdateOffering> : ""}
+                                    {<CreateOffering
+                                        title="Offering Used"
+                                        createModalOpen={createOfferingUsedOpen}
+                                        setCreateModalOpen={setCreateOfferingUsedOpen}
+                                        createfor="OfferingUsed"
+                                        companyId={companyId}
+                                    ></CreateOffering>}
+                                    {offeringUsedDeleteId ? <DeleteOffering
+                                        deleteModalOpen={deleteOfferingUsedOpen}
+                                        setDeleteModalOpen={setDeleteOfferingUsedOpen}
+                                        offeringId={offeringUsedDeleteId}
+                                        deleteFor="OfferingUsed"
+                                        detailsCompanyId={companyId}
+                                    ></DeleteOffering> : ""}
+
+                                    {offeringProvide ?
+                                        <>{offeringProvideData ? <UpdateOffering
+                                            open={open}
+                                            setOpen={setOpen}
+                                            updateOfferingData={offeringProvideData}
+                                            setUpdateOfferingData={setOfferingProvideData}
+                                        ></UpdateOffering> : ""}
+                                            {<CreateOffering
+                                                title="Offering Provide"
+                                                createModalOpen={createOfferingProvideOpen}
+                                                setCreateModalOpen={setCreateOfferingProvideOpen}
+                                                createfor="OfferingProvide"
+                                                companyId={companyId}
+                                            ></CreateOffering>}
+                                            {offeringProvideDeleteId?<DeleteOffering
+                                                deleteModalOpen={deleteOfferingProvideOpen}
+                                                setDeleteModalOpen={setDeleteOfferingProvideOpen}
+                                                offeringId={offeringProvideDeleteId}
+                                                deleteFor="OfferingProvide"
+                                                detailsCompanyId={companyId}
+                                            ></DeleteOffering>:""}</> : ""}
                                 </Paper>
                             </div>
                         )

@@ -15,15 +15,6 @@ function Heading({ title, linkName, listType, onCreateClick }) {
     return (
         <>
             {listType == "list" ?
-
-                <div div className='title-container' >
-                    <Title>
-                        {`${title}`}
-                    </Title>
-                    <Link to={`/${camelCaseLinkName}`} className="navLink"> <Button color="primary" variant="outlined" >
-                        {linkName}
-                    </Button></Link>
-                </div> :
                 <div div className='title-container' >
                     <Title>
                         {`${title}`}
@@ -32,6 +23,14 @@ function Heading({ title, linkName, listType, onCreateClick }) {
                         variant="outlined"
                         onClick={() => onCreateClick()}>{linkName}
                     </Button>
+                </div> :
+                <div div className='title-container' >
+                    <Title>
+                        {`${title}`}
+                    </Title>
+                    <Link to={`/${camelCaseLinkName}`} className="navLink"> <Button color="primary" variant="outlined" >
+                        {linkName}
+                    </Button></Link>
                 </div>
             }
         </>)

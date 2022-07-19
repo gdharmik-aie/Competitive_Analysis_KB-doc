@@ -13,7 +13,7 @@ import {
 import Title from '../Title'
 
 const UPDATE_COMPANY = gql`
-  mutation companyUpdateMutationQuery(
+  mutation companyUpdateMutation(
     $where: CompanyWhere
     $update: CompanyUpdateInput
   ) {
@@ -30,15 +30,8 @@ const UPDATE_COMPANY = gql`
     }
   }
 `
-const DELETE_COMPANY = gql`
-  mutation companyDeleteMutationQuery($where: CompanyWhere) {
-    deleteCompanies(where: $where) {
-      nodesDeleted
-    }
-  }
-`
 
-function UpdateCompany({ open, setOpen, companyData }) {
+function UpdateCompany({ open, setOpen, updateCompanyData, setUpdateCompanyData }) {
 
     const [companyId, setCompanyId] = React.useState('')
     const [companyName, setCompanyName] = React.useState('')
@@ -51,22 +44,23 @@ function UpdateCompany({ open, setOpen, companyData }) {
 
     useEffect(() => {
         function setData() {
-            setCompanyId(companyData.id)
-            setCompanyName(companyData.name)
-            setCompanyDescription(companyData.description)
-            setCompanyId(companyData.id)
-            setCompanyId(companyData.id)
-            setCompanyId(companyData.id)
-            setCompanyId(companyData.id)
+            console.log(updateCompanies)
+            setCompanyId(updateCompanyData.id)
+            setCompanyName(updateCompanyData.name)
+            setCompanyDescription(updateCompanyData.description)
+            setCompanyWebsite(updateCompanyData.website)
+            setCompanyCity(updateCompanyData.city)
+            setCompanyRegion(updateCompanyData.region)
+            setCompanyCountry(updateCompanyData.country)
 
         }
 
         setData()
-    }, [companyData])
+    }, [updateCompanyData])
 
     const [updateCompanies, { loading: mutationLoading, error: mutationError }] = useMutation(UPDATE_COMPANY, {
         variables: {
-            where: { companyId: companyId },
+            where: { id: companyId },
             update: {
                 name: companyName,
                 description: companyDescription,
@@ -78,20 +72,15 @@ function UpdateCompany({ open, setOpen, companyData }) {
         },
     })
 
-    const [deleteCompanies, { data: deleteMutationData, loading: deletMutaionLoading, error: deleteMutationError, }] = useMutation(DELETE_COMPANY, {
-        variables: { where: { companyId: companyId } },
-    })
 
     const onCompanyNameChange = (e) => {
         const companyName = e.target.value
         setCompanyName(companyName)
-        console.log(companyName)
     }
 
     const onCompanyDescriptionChange = (e) => {
         const companyDescription = e.target.value
         setCompanyDescription(companyDescription)
-        console.log(companyDescription)
     }
 
     const onCompanyWebsiteChange = (e) => {
@@ -117,31 +106,18 @@ function UpdateCompany({ open, setOpen, companyData }) {
     const handlerSubmit = (e) => {
         e.preventDefault()
         updateCompanies()
-        console.log(companyId)
         console.log(mutationError)
         console.log(mutationLoading)
         if (!mutationError) {
             setOpen(false)
-            window.location.reload()
         }
     }
 
-    const OnDeleteCompany = (n) => {
-        // setUpdateCompany(n)
-        setCompanyId(n.id)
-        if (companyId) {
-            deleteCompanies()
-            window.location.reload()
-        }
-        console.log(deleteMutationError)
-        console.log(deletMutaionLoading)
-        console.log(deleteMutationData)
-        if (deleteMutationData) {
-            alert(`${deleteMutationData} is deletd`)
-        }
-    }
 
-    const handleClose = () => setOpen(false)
+    const handleClose = () => {
+        setUpdateCompanyData("")
+        setOpen(false)
+    }
 
     return (
         <div>
@@ -213,17 +189,9 @@ function UpdateCompany({ open, setOpen, companyData }) {
                                     className="formButton"
                                     color="primary"
                                     variant="contained"
-                                    onClick={() => OnDeleteCompany()}
-                                >
-                                    Delete
-                                </Button>
-                                <Button
-                                    className="formButton"
-                                    color="primary"
-                                    variant="contained"
                                     type="submit"
                                 >
-                                    Submit
+                                    Update
                                 </Button>
 
                             </div>

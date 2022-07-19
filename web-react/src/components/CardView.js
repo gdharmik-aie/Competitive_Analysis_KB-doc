@@ -100,7 +100,7 @@ export default function CardView({ data, title, onUpdateClick, onDeleteClick }) 
                                 <Button
                                     className='cardButton'
                                     variant="text"
-                                    onClick={() => onDeleteClick(data)}>Delete
+                                    onClick={() => { handleClose(); onDeleteClick(data) }}>Delete
                                 </Button>
                             </MenuItem>
                         </Menu>

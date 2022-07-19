@@ -123,7 +123,7 @@ function DomainDetails() {
             return (
               <div key={i}>
                 <Paper className="root domainDeatils" >
-                  <Heading title="Domain Details" listType="list" linkName="Domain List"></Heading>
+                  <Heading title="Domain Details" listType="details" linkName="Domain List"></Heading>
                   <Card className='cardDetail'>
                     <React.Fragment>
                       <CardContent className='cardContent'>
@@ -161,9 +161,9 @@ function DomainDetails() {
                     <TabPanel value={value} index={0}>
                       <List
                         data={data.domains[i].parentDomains}
-                        title="Domain"
+                        title="Parent Domain"
                         linkName="Add parent domain"
-                        listType="details"
+                        listType="list"
                         loading={loading}
                         error={error}
                         onUpdateClick={onUpdateClick}
@@ -175,7 +175,7 @@ function DomainDetails() {
                     <TabPanel value={value} index={1}>
                       <List
                         data={data.domains[i].childDomains}
-                        title="Domain"
+                        title="Child Domain"
                         linkName="Add child domain"
                         loading={loading}
                         error={error}
@@ -191,15 +191,11 @@ function DomainDetails() {
                     setOpen={setOpen}
                     updateDomainData={updateDomainData}
                     setUpdateDomainData={setUpdateDomainData}
-                    deleteFor="Child"
-                    detailsDomainId={id}
                   /> : <UpdateDomain
                     open={open}
                     setOpen={setOpen}
                     updateDomainData={updateDomainData}
                     setUpdateDomainData={setUpdateDomainData}
-                    deleteFor="Parent"
-                    detailsDomainId={id}
                   />}
                   {domainDeleteId && value === 1 ? <DeleteDomain
                     deleteModalOpen={deleteModalOpen}

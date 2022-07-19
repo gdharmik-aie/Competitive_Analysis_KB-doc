@@ -3,7 +3,8 @@ import { useQuery, gql } from '@apollo/client'
 import './CompanyList.css'
 import List from '../List'
 import UpdateCompany from './UpdateCompany'
-
+import CreateCompany from './CreateCompany'
+import DeleteCompany from './DeleteCompany'
 
 const GET_COMPANY = gql`
   query companiesPaginateQuery {
@@ -15,6 +16,23 @@ const GET_COMPANY = gql`
       city
       region
       country
+      primaryDomain {
+      id
+      name
+      description
+    }
+    offeringsUsed {
+      id
+      name
+      description
+      version
+    }
+    offeringsProvided {
+      id
+      name
+      description
+      version
+    }
     }
   }
 `
@@ -23,7 +41,10 @@ const GET_COMPANY = gql`
 
 function CompanyList() {
   const [open, setOpen] = React.useState(false)
-  const [companyData, setCompanyData] = React.useState("")
+  const [createModalOpen, setCreateModalOpen] = React.useState(false)
+  const [deleteModalOpen, setDeleteModalOpen] = React.useState(false)
+  const [companyDeleteId, setCompanyDeleteId] = React.useState('')
+  const [updateCompanyData, setUpdateCompanyData] = React.useState("")
 
 
 
@@ -32,11 +53,19 @@ function CompanyList() {
 
   const onUpdateClick = (n) => {
     //console.log("here:", n)
-    setCompanyData(n)
+    setUpdateCompanyData(n)
     setOpen(true)
   }
 
+  const onCreateClick = () => {
+    setCreateModalOpen(true)
+  }
 
+  const onDeleteClick = (n) => {
+    console.log(n.id)
+    setCompanyDeleteId(n.id)
+    setDeleteModalOpen(true)
+  }
 
   if (loading) return "Loading...";
   if (error) return <pre>{error.message}</pre>
@@ -50,14 +79,34 @@ function CompanyList() {
         loading={loading}
         error={error}
         onUpdateClick={onUpdateClick}
+        onCreateClick={onCreateClick}
+        onDeleteClick={onDeleteClick}
       />
 
-      {companyData ? <UpdateCompany
+      {updateCompanyData ? <UpdateCompany
         open={open}
         setOpen={setOpen}
-        companyData={companyData}
+        updateCompanyData={updateCompanyData}
+        GET_COMPANY={GET_COMPANY}
+        setUpdateCompanyData={setUpdateCompanyData}
+      ></UpdateCompany> : ""}
+
+      <CreateCompany
+        title="Create Company"
+        createModalOpen={createModalOpen}
+        setCreateModalOpen={setCreateModalOpen}
+        GET_COMPANY={GET_COMPANY}
+      ></CreateCompany>
+
+      <DeleteCompany
+        deleteModalOpen={deleteModalOpen}
+        setDeleteModalOpen={setDeleteModalOpen}
+        companyId={companyDeleteId}
+        GET_COMPANY={GET_COMPANY}
       >
-      </UpdateCompany> : ""}
+
+      </DeleteCompany>
+
     </div>
   )
 
